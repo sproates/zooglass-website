@@ -1,0 +1,37 @@
+<h1>Demonstrations</h1>
+<figure>
+  <video
+    controls
+    playsinline
+    preload="none"
+    poster="{{poster}}"
+    src="{{video}}"
+  ></video>
+  <figcaption>Recording · Continuous vehicle tracking</figcaption>
+</figure>
+<div class="description">
+  <h2>Six cars, imperfect reports</h2>
+  <p>
+    The
+    <a href="https://github.com/sproates/zooglass/blob/main/workbench/README.md"
+      >Workbench Scenario Simulator</a
+    >
+    generates position reports for six cars and deliberately disrupts delivery.
+    It delays, duplicates and drops reports, and makes individual cars go silent
+    before they resume reporting.
+  </p>
+  <p>
+    Each marker shows the latest position ZooGlass has accepted for that car.
+    When an older report arrives after a newer one, the marker holds its newer
+    position. A duplicate leaves it there too.
+  </p>
+  <p>
+    In this recording, watch Car 3 during its source outage. The other cars keep updating. The silent car’s
+    marker stays at its last known position, and the display indicates that the
+    report is ageing. The viewer also uses this grey, dashed style when its own connection is interrupted. When a fresh report arrives, the marker can move again.
+  </p>
+  <a
+    href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md"
+    >Run the demo locally ↗</a
+  >
+</div>
