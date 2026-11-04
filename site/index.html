@@ -1,59 +1,33 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#153fb4">
-  <meta name="description" content="ZooGlass maintains live application views from independent event streams. Explore a multi-source order view, source priority and durable recovery.">
-  <link rel="canonical" href="https://zooglass.io/">
-  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <script defer src="example.js"></script>
-  <title>ZooGlass · Live views across systems</title>
-</head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-<div class="opening">
-<header class="frame mast">
-  <a class="brand" href="./" aria-label="ZooGlass home"><img src="assets/mark.svg" width="34" height="34" alt="">ZooGlass</a>
-  <nav aria-label="Site navigation"><a href="#how">How it works</a><a href="#resources">Resources</a><a href="https://github.com/sproates/zooglass">GitHub ↗</a></nav>
-</header>
-<main id="main">
-<section class="frame hero">
-  <div class="hero-copy">
-    <p class="eyebrow">Open source · Event-driven applications</p>
-    <h1>Many sources.<br>One live view.</h1>
-    <p class="lede">Orders, payments and inventory all change independently. ZooGlass brings their events into a view your application can read, with rules for late reports, conflicting values and retries.</p>
-    <a class="button" href="https://github.com/sproates/zooglass/blob/main/zooglass/README.md">Read the service guide <span aria-hidden="true">↗</span></a>
-  </div>
-  <div class="example" aria-label="Interactive order example">
-    <div class="example-head"><span>Example view</span><span class="tag">Order summary</span></div>
-    <div class="order-title"><span class="parcel" aria-hidden="true">▦</span><h2>Order 42</h2></div>
-    <dl aria-live="polite" aria-atomic="true">
-      <div><dt>Order</dt><dd>Placed</dd></div>
-      <div id="payment-row"><dt>Payment</dt><dd id="payment">Awaiting report</dd></div>
-      <div id="stock-row"><dt>Stock</dt><dd id="stock">Awaiting report</dd></div>
-    </dl>
-    <div class="delivery"><div class="indicator" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <p id="detail" aria-live="polite">The order service has reported order-42. Its payment and stock fields are still empty.</p>
-      <button id="advance" type="button" hidden>Receive payment <span aria-hidden="true">→</span></button>
-    </div>
-    <small>Interactive illustration of configured entity mappings</small>
-  </div>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fafaf8"><meta name="description" content="Explore how ZooGlass builds an order view from independent event streams.">
+<link rel="canonical" href="https://zooglass.io/"><link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css"><script defer src="example.js"></script><title>ZooGlass · Order view</title></head>
+<body><a class="skip" href="#workspace">Skip to order view</a>
+<header><a href="./" class="brand"><img alt="" src="assets/mark.svg" width="32" height="32">ZooGlass</a>
+<nav aria-label="Project"><a href="https://github.com/sproates/zooglass/blob/main/zooglass/README.md">Documentation</a><a href="https://github.com/sproates/zooglass">GitHub ↗</a></nav></header>
+<main id="workspace">
+<div class="title"><div><p class="crumb">ZooGlass <span>/</span> Interactive examples</p><h1>Order 42</h1></div><p>ZooGlass builds application views from event streams. Send a payment or stock report below to update this order.</p></div>
+<div class="workspace">
+<section class="inbox" aria-labelledby="incoming"><h2 id="incoming"><span class="icon" aria-hidden="true">↓</span> Incoming reports</h2>
+<p class="hint">Choose a report to deliver.</p>
+<div class="reports" role="group" aria-label="Deliver a report">
+<button data-report="payment"><span class="source">Payment provider</span><strong>Payment received</strong><code>payment-9 · seq 17</code><i aria-hidden="true">→</i></button>
+<button data-report="stock"><span class="source">Warehouse</span><strong>Stock reserved</strong><code>reservation-7 · seq 3</code><i aria-hidden="true">→</i></button>
+</div><p class="tip">Send either report again to retry the same publication.</p>
 </section>
-</main></div>
-<section class="frame content" id="how" aria-labelledby="how-title">
-  <div class="section-intro"><p class="eyebrow">How it works</p><h2 id="how-title">You define the view.<br>ZooGlass maintains it.</h2></div>
-  <div class="stories">
-    <article><span class="index">01</span><h3>Connect the records</h3><p>Map <code>payment-9</code> and <code>reservation-7</code> to <code>order-42</code>. Each source keeps its own identifiers and sequence numbers.</p></article>
-    <article><span class="index">02</span><h3>Set the rules</h3><p>Keep the latest position in one view and ordered history in another. When sources compete for a field, configure which one has priority.</p></article>
-    <article><span class="index">03</span><h3>Recover after a restart</h3><p>With SQLite, ZooGlass commits the view and the publication identity together. A source can resend a report after reconnecting without applying it twice.</p></article>
-  </div>
-</section>
-<section class="resources" id="resources"><div class="frame resource-grid"><div><p class="eyebrow">Resources</p><h2>Explore the project.</h2></div><div class="links">
-<a href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md"><span><b>Run the vehicle demo</b><small>Six cars on a map, receiving delayed and duplicate position reports.</small></span><em aria-hidden="true">↗</em></a>
-<a href="https://github.com/sproates/zooglass/blob/main/docs/developer-value.md"><span><b>What ZooGlass handles</b><small>Compare the work involved in building and maintaining the same behaviour yourself.</small></span><em aria-hidden="true">↗</em></a>
-<a href="https://github.com/sproates/zooglass/blob/main/ROADMAP.md"><span><b>Project roadmap</b><small>Follow the next capabilities and demonstrations.</small></span><em aria-hidden="true">↗</em></a>
-</div></div></section>
-<footer class="frame"><a class="brand" href="./"><img src="assets/mark.svg" width="28" height="28" alt="">ZooGlass</a><a href="https://github.com/sproates/zooglass">Source on GitHub ↗</a></footer>
+<section class="snapshot" aria-labelledby="result"><div class="snapshot-head"><h2 id="result"><span class="icon" aria-hidden="true">▤</span> Order summary</h2><span class="version" id="version">v1</span></div>
+<p class="endpoint">GET /v2/views/order-summary/order-42</p>
+<table><caption class="sr">Current view fields and their source records</caption><thead><tr><th>Field</th><th>Value</th><th>Source record</th></tr></thead><tbody>
+<tr><th scope="row">Order</th><td>Placed</td><td><code>order-42</code></td></tr>
+<tr id="payment-row"><th scope="row">Payment</th><td id="payment">Awaiting report</td><td><code id="payment-key">—</code></td></tr>
+<tr id="stock-row"><th scope="row">Stock</th><td id="stock">Awaiting report</td><td><code id="stock-key">—</code></td></tr>
+</tbody></table>
+<div class="receipt" role="status"><b id="outcome">Order received</b><p id="detail">The order service supplied the first field. Payment and stock can arrive independently.</p></div>
+<button id="reset" type="button" hidden>Reset example</button>
+</section></div>
+<div class="footnote"><span>Browser illustration</span><a href="https://github.com/sproates/zooglass/blob/main/docs/design/relationships-and-conflicts.md">Read the mapping contract ↗</a></div>
+<details><summary>How does ZooGlass know these records belong together?</summary><p>The application configures a lookup from the provider’s payment-9 and the warehouse’s reservation-7 to order-42. The order view uses that shared ID. ZooGlass retains each report’s original source, entity and sequence so it can recognise a retry.</p></details>
+</main><footer><span>ZooGlass</span><a href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md">Run the vehicle demo ↗</a><a href="https://github.com/sproates/zooglass/blob/main/ROADMAP.md">Roadmap ↗</a></footer>
 </body></html>
