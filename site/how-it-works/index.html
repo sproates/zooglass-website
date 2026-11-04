@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How ZooGlass works — Source priority, ordering and recovery</title>
+  <meta name="description" content="Follow a concrete ZooGlass example: independently ordered courier updates, configured source priority, retained candidates and SQLite recovery.">
+  <meta name="author" content="Ian Sproates">
+  <meta name="theme-color" content="#f5f2fc">
+  <link rel="canonical" href="https://zooglass.io/how-it-works/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZooGlass">
+  <meta property="og:title" content="How ZooGlass works — Source priority, ordering and recovery">
+  <meta property="og:description" content="Follow a concrete ZooGlass example: independently ordered courier updates, configured source priority, retained candidates and SQLite recovery.">
+  <meta property="og:url" content="https://zooglass.io/how-it-works/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://zooglass.io/#website","url":"https://zooglass.io/","name":"ZooGlass","description":"Open-source event-driven live views.","creator":{"@id":"https://zooglass.io/about/#ian-sproates"}},{"@type":"Person","@id":"https://zooglass.io/about/#ian-sproates","name":"Ian Sproates","url":"https://zooglass.io/about/","sameAs":["https://github.com/sproates"]},{"@type":"SoftwareSourceCode","@id":"https://zooglass.io/#software","name":"ZooGlass","url":"https://zooglass.io/","codeRepository":"https://github.com/sproates/zooglass","license":"https://github.com/sproates/zooglass/blob/main/LICENSE","programmingLanguage":["Java","TypeScript"],"description":"An early open-source prototype for maintaining event-driven live views with configurable ordering, entity mappings, source priority and optional SQLite persistence.","author":{"@id":"https://zooglass.io/about/#ian-sproates"}},{"@type":"WebPage","@id":"https://zooglass.io/how-it-works/#page","url":"https://zooglass.io/how-it-works/","name":"How ZooGlass works \u2014 Source priority, ordering and recovery","isPartOf":{"@id":"https://zooglass.io/#website"}}]}</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="brand" href="../" aria-label="ZooGlass home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 11 25 4v25L5 36Z" fill="currentColor" opacity=".25"/><path d="m15 11 20-7v25l-20 7Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15 19 20-7M15 27l20-7" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>ZooGlass</span></a>
+    <nav aria-label="Main navigation"><a href="../">Overview</a><a href="../how-it-works/" aria-current="page">How it works</a><a href="../about/">About</a></nav>
+    <a class="header-github" href="https://github.com/sproates/zooglass">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+<section class="page-hero wrap"><p class="eyebrow">HOW IT WORKS / A WORKED EXAMPLE</p><h1>Two sources.<br><span>One explicit decision.</span></h1><p class="lede">A primary courier reports sequence 2. A backup reports sequence 900. Which one should your order view show?</p><p class="byline">An illustrated walkthrough of source priority, not a running service.</p></section>
+<section class="wrap article-layout"><aside class="article-aside"><p class="eyebrow">IN THIS EXAMPLE</p><ol><li><a href="#configure">Declare the relationship</a></li><li><a href="#sequence">Follow the publications</a></li><li><a href="#recovery">Keep the context</a></li></ol></aside><div class="article-body">
+<section id="configure"><h2>First, declare the relationship.</h2><p>The couriers use different identifiers. Configure <code>shipment-3</code> and <code>tracking-8</code> to resolve to <code>order-42</code> in this view. Each source keeps its own publication identity and ordering.</p><p>The delivery field accepts both sources, uses <code>latestBySequence</code> for each source’s candidate, and ranks the primary before the backup.</p><div class="rule"><span class="mono">THE RULE</span><p>Keep each source’s latest contribution.<br><strong>Show the first present source in the priority list.</strong></p></div><p>These are exact, configured mappings. ZooGlass does not infer relationships, compare sequence numbers across sources or interpret business status strings.</p></section>
+<section id="sequence"><h2>Then, follow the publications.</h2><div class="timeline">
+<article><span class="step-number">1</span><div><p class="eyebrow">BACKUP · SEQUENCE 900</p><h3>The backup is the only candidate.</h3><p>Its “In transit” value is selected because no primary contribution exists yet.</p><div class="result"><span>Visible source</span><strong>Backup</strong><span>Visible sequence</span><strong>900</strong></div></div></article>
+<article><span class="step-number">2</span><div><p class="eyebrow">PRIMARY · SEQUENCE 2</p><h3>The primary takes priority.</h3><p>“Out for delivery” replaces the visible value. Sequence 2 wins because the primary ranks first, not because its sequence is numerically newer.</p><div class="result"><span>Visible source</span><strong>Primary</strong><span>Visible sequence</span><strong>2</strong></div></div></article>
+<article><span class="step-number">3</span><div><p class="eyebrow">BACKUP · SEQUENCE 901</p><h3>Keep the update. Keep the winner.</h3><p>The backup’s newer candidate is retained independently. The visible primary value and snapshot version stay unchanged.</p><div class="result"><span>Visible source</span><strong>Primary</strong><span>Retained backup sequence</span><strong>901</strong></div></div></article>
+<article><span class="step-number">4</span><div><p class="eyebrow">PRIMARY · DELAYED SEQUENCE 1</p><h3>Late input doesn’t move the view backwards.</h3><p>Within the configured identity window, a new delayed publication can be admitted without replacing the primary’s sequence 2 candidate.</p><div class="result"><span>Visible source</span><strong>Primary</strong><span>Visible sequence</span><strong>2</strong></div></div></article>
+</div></section>
+<section id="recovery"><h2>The view includes its context.</h2><p>An HTTP snapshot separates the selected data from provenance: the source ID, epoch and original source entity. An acknowledgement records each matched view’s original processing outcome.</p><p>With SQLite enabled, candidates, visible state and publication identities commit together. Hidden backup updates survive restart, and retries of retained identities return their original outcomes.</p><div class="callout"><h3>Silence doesn’t change the winner.</h3><p>The current priority policy has no freshness fallback, timeout or withdrawal. A silent primary stays selected. Received history does not prove completeness, and a retry outside the identity window is rejected.</p></div><p>A different view can rank these same sources differently. Your application still owns domain rules, source integration and presentation.</p></section>
+<section><h2>Run it through the real API.</h2><p>The documentation includes the complete configuration, publication envelope, response contract and storage setup. You’ll need Java 25 for the service; Workbench uses Node 26.</p><div class="actions"><a class="button primary" href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md">Open the ingestion guide ↗</a><a class="text-link" href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/sqlite-storage.md">SQLite recovery guide ↗</a></div></section>
+</div></section>
+</main>
+  <footer class="site-footer wrap">
+    <div><a class="brand" href="../"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 11 25 4v25L5 36Z" fill="currentColor" opacity=".25"/><path d="m15 11 20-7v25l-20 7Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15 19 20-7M15 27l20-7" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>ZooGlass</span></a><p>Event-driven live views.<br>Created by <a href="../about/">Ian Sproates</a>.</p></div>
+    <nav aria-label="Footer navigation"><a href="https://github.com/sproates/zooglass">Source code ↗</a><a href="https://github.com/sproates/zooglass/blob/main/zooglass/README.md">Documentation ↗</a><a href="https://github.com/sproates/zooglass/blob/main/ROADMAP.md">Roadmap ↗</a></nav>
+    <p class="footer-note">Open source · MIT licensed<br>© 2026 Ian Sproates</p>
+  </footer>
+</body>
+</html>
