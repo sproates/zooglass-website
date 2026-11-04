@@ -1,30 +1,59 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7ef"><meta name="description" content="ZooGlass maintains event-driven live views across independent sources. Explore how it handles late reports, conflicting values and retries.">
-  <link rel="canonical" href="https://zooglass.io/"><link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css"><script defer src="example.js"></script><title>ZooGlass · Event-driven live views</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#153fb4">
+  <meta name="description" content="ZooGlass maintains live application views from independent event streams. Explore a multi-source order view, source priority and durable recovery.">
+  <link rel="canonical" href="https://zooglass.io/">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="example.js"></script>
+  <title>ZooGlass · Live views across systems</title>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="wrap mast"><a class="brand" href="./"><img src="assets/mark.svg" width="40" height="40" alt="">ZooGlass</a><nav aria-label="Main navigation"><a href="#field-example">Example</a><a href="#fleet">Fleet demo</a><a class="repo" href="https://github.com/sproates/zooglass">GitHub ↗</a></nav></header>
+<div class="opening">
+<header class="frame mast">
+  <a class="brand" href="./" aria-label="ZooGlass home"><img src="assets/mark.svg" width="34" height="34" alt="">ZooGlass</a>
+  <nav aria-label="Site navigation"><a href="#how">How it works</a><a href="#resources">Resources</a><a href="https://github.com/sproates/zooglass">GitHub ↗</a></nav>
+</header>
 <main id="main">
-<section class="wrap hero">
-  <div class="intro"><div class="kicker"><i></i> Distributed systems field guide</div><h1>Event-driven<br><span>live views.</span></h1><p>Build a live picture from independent event streams. ZooGlass keeps track of what each source reported, even when updates arrive late or twice.</p><a class="cta" href="#field-example">Explore an event stream <b aria-hidden="true">↓</b></a></div>
-  <figure class="plate"><div class="plate-head"><span>ZG / FIG. 01</span><span>View projection</span></div><img src="assets/plates.svg" alt="Three stacked glass plates represent the incoming stream, its latest value and its ordered history." width="600" height="390"><figcaption>One feed, two interpretations <span>01 / 03</span></figcaption></figure>
+<section class="frame hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Open source · Event-driven applications</p>
+    <h1>Many sources.<br>One live view.</h1>
+    <p class="lede">Orders, payments and inventory all change independently. ZooGlass brings their events into a view your application can read, with rules for late reports, conflicting values and retries.</p>
+    <a class="button" href="https://github.com/sproates/zooglass/blob/main/zooglass/README.md">Read the service guide <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="example" aria-label="Interactive order example">
+    <div class="example-head"><span>Example view</span><span class="tag">Order summary</span></div>
+    <div class="order-title"><span class="parcel" aria-hidden="true">▦</span><h2>Order 42</h2></div>
+    <dl aria-live="polite" aria-atomic="true">
+      <div><dt>Order</dt><dd>Placed</dd></div>
+      <div id="payment-row"><dt>Payment</dt><dd id="payment">Awaiting report</dd></div>
+      <div id="stock-row"><dt>Stock</dt><dd id="stock">Awaiting report</dd></div>
+    </dl>
+    <div class="delivery"><div class="indicator" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p id="detail" aria-live="polite">The order service has reported order-42. Its payment and stock fields are still empty.</p>
+      <button id="advance" type="button" hidden>Receive payment <span aria-hidden="true">→</span></button>
+    </div>
+    <small>Interactive illustration of configured entity mappings</small>
+  </div>
 </section>
-<section id="field-example" class="lab"><div class="wrap"><div class="section-label"><span>01</span> Interactive example</div><div class="lab-title"><h2>The late arrival.</h2><p>A vehicle sends three position reports. Report 41 takes the long way round. Select a delivery to see the two views it feeds.</p></div>
- <div class="console"><div class="controls"><h3>Delivery order</h3><div id="steps" class="steps" role="group" aria-label="Choose a delivery"><button type="button" data-step="0" aria-pressed="false">40</button><button type="button" data-step="1" aria-pressed="false">42</button><button type="button" data-step="2" aria-pressed="true">41</button><button type="button" data-step="3" aria-pressed="false">41 <small>retry</small></button></div></div>
- <div class="outputs" aria-live="polite" aria-atomic="true"><div><h3>Latest position report</h3><strong id="latest">42</strong></div><div><h3>Received history</h3><strong id="history">40 · 41 · 42</strong></div><p id="note">Report 41 fills the gap in history. Report 42 still supplies the latest position.</p></div></div>
- <p class="caption">Illustrated playback of the ZooGlass ordering rules. <a href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md">Read the ingestion contract ↗</a></p></div></section>
-<section class="wrap rules"><div class="section-label"><span>02</span> Inside ZooGlass</div><h2>Where the rules live.</h2><dl>
- <div><dt><i>01</i> Connect identities</dt><dd>Your order system knows <code>order-42</code>. Your payment provider knows <code>payment-9</code>. A configured mapping brings their updates into the same order view.</dd></div>
- <div><dt><i>02</i> Choose a source</dt><dd>A primary courier can outrank a backup even when the backup has a higher sequence number. Each source keeps its own ordering history.</dd></div>
- <div><dt><i>03</i> Recover a view</dt><dd>With SQLite storage, ZooGlass commits view changes and publication identities together. After a restart, a source can retry a report and recover its original commit version.</dd></div>
- </dl><a class="textlink" href="https://github.com/sproates/zooglass/blob/main/zooglass/README.md">Read the service guide ↗</a></section>
-<section id="fleet" class="fleet"><div class="wrap fleet-inner"><div><div class="section-label"><span>03</span> Field observation</div><h2>Six cars in<br>Gibraltar.</h2><p>Watch six simulated cars drive real streets. Workbench introduces delayed, missing and duplicate reports. ZooGlass maintains the positions. The map shows when a car last reported.</p><a class="cta" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md">Run the fleet demo <b aria-hidden="true">↗</b></a></div>
- <figure><a href="assets/gibraltar.png" aria-label="Open full-size fleet demo screenshot"><img loading="lazy" src="assets/gibraltar.png" alt="ZooGlass fleet demo with six numbered vehicle markers on a street map of Gibraltar."></a><figcaption>Gibraltar fleet · Demo capture <span>FIG. 02</span></figcaption></figure></div></section>
-</main>
-<footer class="wrap"><a class="brand" href="./"><img src="assets/mark.svg" width="32" height="32" alt="">ZooGlass</a><div><a href="https://github.com/sproates/zooglass/blob/main/ROADMAP.md">Roadmap ↗</a><a href="https://github.com/sproates/zooglass">Source code ↗</a></div></footer>
+</main></div>
+<section class="frame content" id="how" aria-labelledby="how-title">
+  <div class="section-intro"><p class="eyebrow">How it works</p><h2 id="how-title">You define the view.<br>ZooGlass maintains it.</h2></div>
+  <div class="stories">
+    <article><span class="index">01</span><h3>Connect the records</h3><p>Map <code>payment-9</code> and <code>reservation-7</code> to <code>order-42</code>. Each source keeps its own identifiers and sequence numbers.</p></article>
+    <article><span class="index">02</span><h3>Set the rules</h3><p>Keep the latest position in one view and ordered history in another. When sources compete for a field, configure which one has priority.</p></article>
+    <article><span class="index">03</span><h3>Recover after a restart</h3><p>With SQLite, ZooGlass commits the view and the publication identity together. A source can resend a report after reconnecting without applying it twice.</p></article>
+  </div>
+</section>
+<section class="resources" id="resources"><div class="frame resource-grid"><div><p class="eyebrow">Resources</p><h2>Explore the project.</h2></div><div class="links">
+<a href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md"><span><b>Run the vehicle demo</b><small>Six cars on a map, receiving delayed and duplicate position reports.</small></span><em aria-hidden="true">↗</em></a>
+<a href="https://github.com/sproates/zooglass/blob/main/docs/developer-value.md"><span><b>What ZooGlass handles</b><small>Compare the work involved in building and maintaining the same behaviour yourself.</small></span><em aria-hidden="true">↗</em></a>
+<a href="https://github.com/sproates/zooglass/blob/main/ROADMAP.md"><span><b>Project roadmap</b><small>Follow the next capabilities and demonstrations.</small></span><em aria-hidden="true">↗</em></a>
+</div></div></section>
+<footer class="frame"><a class="brand" href="./"><img src="assets/mark.svg" width="28" height="28" alt="">ZooGlass</a><a href="https://github.com/sproates/zooglass">Source on GitHub ↗</a></footer>
 </body></html>

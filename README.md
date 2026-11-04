@@ -1,7 +1,7 @@
 # ZooGlass website
 
-The project showcase for [zooglass.io](https://zooglass.io). Static HTML, CSS and JavaScript live in `site/`. The interactive example illustrates the ordering rules locally. The fleet screenshot comes from the [vehicle demo](https://github.com/sproates/zooglass/tree/main/demos/vehicle-tracker), including its map attribution.
+The [ZooGlass](https://zooglass.io) project site lives in `site/`. The order example illustrates view-local mappings and publication retries in the browser.
 
-Run `python3 -m http.server 8000 --directory site` and open http://localhost:8000. Check changes with `python3 scripts/check-site.py` and `node --check site/example.js`.
+Use `panack-http-server` for previews. Serve a copy of `site/` with its canonical URL set to the preview address. Bind the server to the Mac’s LAN address with `--no-cache --noindex` and share that address with reviewers.
 
-Pull requests run the site checks. Merging to main deploys the contents of `site/` through GitHub Pages.
+Run `python3 scripts/check-site.py` and `node --check site/example.js` to check local references and JavaScript syntax. Merging to main deploys the static site through GitHub Pages.
