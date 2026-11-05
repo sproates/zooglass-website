@@ -186,7 +186,7 @@
   <figure class="workbench-figure">
     <svg
       class="drawing"
-      viewBox="-150 -90 700 510"
+      viewBox="-150 -90 800 550"
       role="img"
       aria-label="Architecture cutaway: sources, ZooGlass and applications form a vertical stack. Workbench wraps around all three layers, coordinating events, checking views and controlling client connections."
     >
@@ -195,7 +195,7 @@
       <defs>
         <path
           id="workbench-frame"
-          d="M200 0H52Q0 0 0 52V278Q0 330 52 330H200V280H67Q48 280 48 261V69Q48 50 67 50H200Z"
+          d="M200 0H52Q0 0 0 52V313Q0 365 52 365H200V315H67Q48 315 48 296V69Q48 50 67 50H200Z"
         />
       </defs>
       <g stroke="#655b4a" stroke-width="1.4" stroke-linejoin="round">
@@ -205,48 +205,45 @@
           fill="#b2a48b"
         />
         <g transform="matrix(1 .28 0 1 -110 -55)">
-          <path d="M52 0 78 -14.28H226L200 0Z" fill="#e4dac6" />
+          <path
+            d="M200 0H52Q0 0 0 52L26 37.72Q26 -14.28 78 -14.28H226Z"
+            fill="#e4dac6"
+          />
           <path d="M200 0 226 -14.28V35.72L200 50Z" fill="#b2a48b" />
-          <path d="M67 280 93 265.72H226L200 280Z" fill="#e4dac6" />
-          <path d="M200 280 226 265.72V315.72L200 330Z" fill="#a19278" />
-          <path d="M48 69 74 54.72V246.72L48 261Z" fill="#9c8e75" />
+          <path d="M67 315 93 300.72H226L200 315Z" fill="#e4dac6" />
+          <path d="M200 315 226 300.72V350.72L200 365Z" fill="#a19278" />
+          <path d="M48 69 74 54.72V281.72L48 296Z" fill="#9c8e75" />
           <use href="#workbench-frame" fill="#cbbda3" />
           <path
-            d="M180 16H55Q17 16 17 54V276Q17 313 55 313H174"
+            d="M180 16H55Q17 16 17 54V311Q17 348 55 348H174"
             fill="none"
             stroke="#a39170"
             stroke-width="2"
           />
-          <!-- Fixed upper jaw, with a separate contact face. -->
-          <path d="M170 44 196 36.72 226 45.12 200 52.4Z" fill="#eee7d9" />
-          <path d="M170 44V53L200 61.4V52.4Z" fill="#94866e" />
-          <path d="M200 52.4 226 45.12V54.12L200 61.4Z" fill="#b2a48b" />
-          <!-- Vertical screw and swivel pad on the lower jaw. -->
-          <path d="M179 261V373H191V261Z" fill="#e5dfd2" />
-          <path d="M191 261 199 256.76V368.76L191 373Z" fill="#9a9385" />
-          <g stroke="#817969">
-            <path d="M179 266l12 -3" />
-            <path d="M179 273l12 -3" />
-            <path d="M179 280l12 -3" />
-            <path d="M179 287l12 -3" />
-            <path d="M179 294l12 -3" />
-            <path d="M179 301l12 -3" />
-            <path d="M179 308l12 -3" />
-            <path d="M179 315l12 -3" />
-            <path d="M179 322l12 -3" />
-            <path d="M179 329l12 -3" />
-            <path d="M179 336l12 -3" />
-            <path d="M179 343l12 -3" />
-            <path d="M179 350l12 -3" />
-            <path d="M179 357l12 -3" />
-            <path d="M179 364l12 -3" />
-            <path d="M179 371l12 -3" />
-          </g>
-          <path d="M165 253 191 245.72 213 251.88 187 259.16Z" fill="#eee7d9" />
-          <path d="M165 253V262L187 268.16V259.16Z" fill="#a89b84" />
-          <path d="M187 259.16 213 251.88V260.88L187 268.16Z" fill="#8e806a" />
+          <!-- Only the exposed screw is visible; the lower arm occludes its middle. -->
           <path
-            d="M157 363H218"
+            d="M179 280V315H191V280Z M179 365V407H191V365Z"
+            fill="#e5dfd2"
+          />
+          <path
+            d="M191 280 199 275.76V310.76L191 315Z M191 365 199 360.76V402.76L191 407Z"
+            fill="#9a9385"
+          />
+          <g stroke="#817969">
+            <path d="M179 285l12 -3" />
+            <path d="M179 291l12 -3" />
+            <path d="M179 297l12 -3" />
+            <path d="M179 303l12 -3" />
+            <path d="M179 309l12 -3" />
+            <path d="M179 372l12 -3" />
+            <path d="M179 378l12 -3" />
+            <path d="M179 384l12 -3" />
+            <path d="M179 390l12 -3" />
+            <path d="M179 396l12 -3" />
+            <path d="M179 402l12 -3" />
+          </g>
+          <path
+            d="M157 397H218"
             fill="none"
             stroke="#655b4a"
             stroke-width="5"
@@ -254,10 +251,7 @@
           />
         </g>
       </g>
-      <g stroke="#746348" stroke-width="1" fill="none" stroke-dasharray="3 4">
-        <path d="M-50 157H26m-76 89H26" />
-      </g>
-      <path d="M-95 -62v-12" fill="none" stroke="currentColor" />
+      <path d="M-95 -74V-28" fill="none" stroke="currentColor" />
       <text
         x="-110"
         y="-78"
@@ -344,6 +338,34 @@
           <path d="m202 43 26 -7 24 7 -26 7 z" />
           <path d="m207 44.5 26 -7" />
         </g>
+      </g>
+      <g
+        fill="#eee7d9"
+        stroke="#655b4a"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+      >
+        <!-- Upper contact shoe and lower swivel pad meet the plate surfaces. -->
+        <path d="M65 44 90 51v15l-25 -7Z" fill="#a89b84" />
+        <path d="M90 51 103 47v16l-13 3Z" fill="#8e806a" />
+        <path d="M55 64 81 57 103 63 77 70Z" />
+        <path d="M55 64v8l22 6v-8Z" fill="#a89b84" />
+        <path d="M77 70 103 63v8l-26 7Z" fill="#8e806a" />
+        <path d="M55 267 81 260 103 266 77 273Z" />
+        <path d="M55 267v8l22 6v-8Z" fill="#a89b84" />
+        <path d="M77 273 103 266v8l-26 7Z" fill="#8e806a" />
+      </g>
+      <g stroke="#65533d" stroke-width="1.8" fill="none">
+        <path d="M-58 67H32 M-58 156H32 M-58 247H32" />
+        <path d="m25 63 7 4-7 4m0 81 7 4-7 4m0 83 7 4-7 4" />
+        <circle cx="-58" cy="67" r="3" fill="#65533d" />
+        <circle cx="-58" cy="156" r="3" fill="#65533d" />
+        <circle cx="-58" cy="247" r="3" fill="#65533d" />
+      </g>
+      <g fill="currentColor" font-family="system-ui" font-size="13">
+        <text x="380" y="89">Controls client connections</text>
+        <text x="380" y="180">Checks view results</text>
+        <text x="380" y="269">Drives events and delivery faults</text>
       </g>
     </svg>
     <figcaption>
