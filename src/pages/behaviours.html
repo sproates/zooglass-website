@@ -25,9 +25,11 @@
       <h3>A source retries an event</h3>
       <div>
         <p>
-          ZooGlass gives each publication an identity. An exact retry returns
-          its retained original outcome without applying it again. Reusing that
-          identity with different content is rejected.
+          ZooGlass gives each publication an identity. When a source retries the same
+          publication within the retention window, ZooGlass acknowledges it as a
+          duplicate. The acknowledgement includes the original version and the
+          recorded outcomes for the affected views. Their state stays unchanged.
+          ZooGlass rejects a retry that reuses the identity with different content.
         </p>
         <p class="annotation">
           Identity retention is bounded. This is a defined retry window, not an
@@ -112,7 +114,7 @@
     their decisions.
   </p>
   <a
-    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md"
+    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/publications.md"
     >Read the configuration guide ↗</a
   ><a href="demonstrations.html#corrections">Walk through a corrected fact →</a>
 </section>
