@@ -144,8 +144,8 @@
   <div>
     <h2>State that can survive a restart</h2>
     <p>
-      Choose memory storage for transient runs or SQLite for durable state.
-      SQLite commits view state and retained publication outcomes atomically.
+      Choose memory storage for transient runs or a database for durable state.
+      ZooGlass commits view state and retained publication outcomes atomically.
     </p>
     <p>
       Recovery validates stored state before the service becomes ready. A source
@@ -154,7 +154,7 @@
     </p>
     <a
       href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/sqlite-storage.md"
-      >SQLite storage and recovery ↗</a
+      >Database storage and recovery ↗</a
     >
   </div>
   <div>
