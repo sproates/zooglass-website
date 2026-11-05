@@ -62,42 +62,44 @@
 </div>
 <section class="chapter">
   <h2>What your application no longer has to implement</h2>
-  <ul class="application-work">
-    <li>Ordering and duplicate-handling logic for incoming updates.</li>
-    <li>
-      Rules for combining sources and choosing between conflicting
-      contributions.
-    </li>
-    <li>Tracking corrections and withdrawals to retained facts.</li>
-    <li>
-      Maintaining freshness information and deciding when required contributions
-      are present.
-    </li>
-    <li>
-      Recovering maintained views and retained retry outcomes after a restart,
-      when using database storage.
-    </li>
-  </ul>
+  <div class="three-column">
+    <article>
+      <h3>Reconcile updates</h3>
+      <p>
+        Handle late and duplicate events, combine sources and choose between
+        conflicting contributions using configured rules.
+      </p>
+      <a href="behaviours.html">Update strategies →</a>
+    </article>
+    <article>
+      <h3>Maintain the view</h3>
+      <p>
+        Track corrections, withdrawals and freshness. Publish when required
+        contributions are present.
+      </p>
+      <a href="behaviours.html">View behaviours →</a>
+    </article>
+    <article>
+      <h3>Recover state</h3>
+      <p>
+        With database storage, restore maintained views and retained retry
+        outcomes after a restart.
+      </p>
+      <a href="architecture.html#persistence">State and recovery →</a>
+    </article>
+  </div>
   <p class="measure">
     Your team defines the sources, view configuration and presentation. ZooGlass
-    maintains the view according to those rules; Workbench lets you exercise and
-    verify the behaviour.
+    maintains the view according to those rules.
   </p>
-  <a class="text-link" href="behaviours.html"
-    >Explore the configurable behaviours →</a
-  >
 </section>
 <section class="closing">
   <h2>Workbench Scenario Simulator</h2>
   <p>
-    ZooGlass comes with Workbench, a tool for exercising its behaviour under
-    controlled conditions. Define events, connection changes and expected views
-    in a scenario, then run it against the real service.
-  </p>
-  <p>
-    Delayed reports, duplicates, missing events and disconnects become
-    repeatable situations you can inspect and check. Use the same scenario to
-    explore a configuration, explain its behaviour or catch a regression.
+    Define events, deliberate delivery failures and expected views in a
+    repeatable scenario. Workbench runs it against ZooGlass and checks the
+    results, so you can explore a configuration, demonstrate its behaviour and
+    catch regressions.
   </p>
   <a href="verification.html#workbench">How Workbench verifies a scenario →</a>
   <a href="demonstrations.html">See a scenario demonstrated →</a>

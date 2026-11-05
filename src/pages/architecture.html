@@ -186,23 +186,84 @@
   <figure class="workbench-figure">
     <svg
       class="drawing"
-      viewBox="-135 -20 675 370"
+      viewBox="-150 -90 700 510"
       role="img"
       aria-label="Architecture cutaway: sources, ZooGlass and applications form a vertical stack. Workbench wraps around all three layers, coordinating events, checking views and controlling client connections."
     >
-      <!-- Workbench surrounds the stack without becoming a layer in the data path. -->
-      <g fill="none" stroke="#746348" stroke-linejoin="round">
-        <path d="M20 8H-68V302H20" stroke-width="12" />
-        <path d="M20 8H-68V302H20" stroke="#d4c7b0" stroke-width="7" />
-        <path d="M-62 67H24m-86 89H24m-86 90H24" stroke-width="1.5" />
-        <path d="m18 63 6 4-6 4m0 81 6 4-6 4m0 82 6 4-6 4" stroke-width="1.5" />
+      <!-- The clamp lies in a vertical plane along the stack's front-left axis.
+           Its extrusion follows the other horizontal axis of the plates. -->
+      <defs>
+        <path
+          id="workbench-frame"
+          d="M200 0H52Q0 0 0 52V278Q0 330 52 330H200V280H67Q48 280 48 261V69Q48 50 67 50H200Z"
+        />
+      </defs>
+      <g stroke="#655b4a" stroke-width="1.4" stroke-linejoin="round">
+        <use
+          href="#workbench-frame"
+          transform="matrix(1 .28 0 1 -84 -62)"
+          fill="#b2a48b"
+        />
+        <g transform="matrix(1 .28 0 1 -110 -55)">
+          <path d="M52 0 78 -14.28H226L200 0Z" fill="#e4dac6" />
+          <path d="M200 0 226 -14.28V35.72L200 50Z" fill="#b2a48b" />
+          <path d="M67 280 93 265.72H226L200 280Z" fill="#e4dac6" />
+          <path d="M200 280 226 265.72V315.72L200 330Z" fill="#a19278" />
+          <path d="M48 69 74 54.72V246.72L48 261Z" fill="#9c8e75" />
+          <use href="#workbench-frame" fill="#cbbda3" />
+          <path
+            d="M180 16H55Q17 16 17 54V276Q17 313 55 313H174"
+            fill="none"
+            stroke="#a39170"
+            stroke-width="2"
+          />
+          <!-- Fixed upper jaw, with a separate contact face. -->
+          <path d="M170 44 196 36.72 226 45.12 200 52.4Z" fill="#eee7d9" />
+          <path d="M170 44V53L200 61.4V52.4Z" fill="#94866e" />
+          <path d="M200 52.4 226 45.12V54.12L200 61.4Z" fill="#b2a48b" />
+          <!-- Vertical screw and swivel pad on the lower jaw. -->
+          <path d="M179 261V373H191V261Z" fill="#e5dfd2" />
+          <path d="M191 261 199 256.76V368.76L191 373Z" fill="#9a9385" />
+          <g stroke="#817969">
+            <path d="M179 266l12 -3" />
+            <path d="M179 273l12 -3" />
+            <path d="M179 280l12 -3" />
+            <path d="M179 287l12 -3" />
+            <path d="M179 294l12 -3" />
+            <path d="M179 301l12 -3" />
+            <path d="M179 308l12 -3" />
+            <path d="M179 315l12 -3" />
+            <path d="M179 322l12 -3" />
+            <path d="M179 329l12 -3" />
+            <path d="M179 336l12 -3" />
+            <path d="M179 343l12 -3" />
+            <path d="M179 350l12 -3" />
+            <path d="M179 357l12 -3" />
+            <path d="M179 364l12 -3" />
+            <path d="M179 371l12 -3" />
+          </g>
+          <path d="M165 253 191 245.72 213 251.88 187 259.16Z" fill="#eee7d9" />
+          <path d="M165 253V262L187 268.16V259.16Z" fill="#a89b84" />
+          <path d="M187 259.16 213 251.88V260.88L187 268.16Z" fill="#8e806a" />
+          <path
+            d="M157 363H218"
+            fill="none"
+            stroke="#655b4a"
+            stroke-width="5"
+            stroke-linecap="round"
+          />
+        </g>
       </g>
+      <g stroke="#746348" stroke-width="1" fill="none" stroke-dasharray="3 4">
+        <path d="M-50 157H26m-76 89H26" />
+      </g>
+      <path d="M-95 -62v-12" fill="none" stroke="currentColor" />
       <text
-        transform="translate(-100 156) rotate(-90)"
-        text-anchor="middle"
+        x="-110"
+        y="-78"
         fill="currentColor"
         font-family="system-ui"
-        font-size="17"
+        font-size="16"
       >
         Workbench
       </text>
