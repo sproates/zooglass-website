@@ -123,8 +123,10 @@
   <p class="measure">
     The correction and retraction have new publication sequences but refer to
     the same fact birth. The first-fact field rejects those alterations as
-    immutable; the latest-revision field follows them. An exact retry returns
-    its retained receipt.
+    immutable. The latest-revision field follows them. If the source retries
+    the same retraction within the retention window, ZooGlass acknowledges it as
+    a duplicate with the original version and both views’ recorded outcomes.
+    The collections stay as shown in the table.
   </p>
   <a
     class="text-link"
