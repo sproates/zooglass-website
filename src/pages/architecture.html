@@ -1,103 +1,438 @@
+<p class="eyebrow">Where the responsibilities live</p>
 <h1>Architecture</h1>
-<figure>
-  <svg
-    class="drawing"
-    viewBox="0 0 540 330"
-    role="img"
-    aria-label="Architecture cutaway, bottom to top: sources send events, ZooGlass applies view rules, applications subscribe to snapshots and updates."
+<p class="page-intro">
+  Sources publish events. ZooGlass maintains the view. Applications decide how
+  to present it.
+</p>
+<div class="architecture-overview">
+  <figure>
+    <svg
+      class="drawing"
+      viewBox="0 0 540 330"
+      role="img"
+      aria-label="Architecture cutaway, bottom to top: sources send events, ZooGlass applies view rules, applications subscribe to snapshots and updates."
+    >
+      <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
+        <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
+      </g>
+      <g
+        transform="translate(0 205)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          Sources
+        </text>
+        <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
+      </g>
+      <g
+        transform="translate(0 116)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          ZooGlass
+        </text>
+        <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
+      </g>
+      <g
+        transform="translate(0 25)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          Applications
+        </text>
+        <g fill="none">
+          <path d="m78 43 26 -7 24 7 -26 7 z" />
+          <path d="m83 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m140 43 26 -7 24 7 -26 7 z" />
+          <path d="m145 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m202 43 26 -7 24 7 -26 7 z" />
+          <path d="m207 44.5 26 -7" />
+        </g>
+      </g>
+    </svg>
+    <figcaption>System cutaway · Read from the bottom up</figcaption>
+  </figure>
+  <div class="layer-notes">
+    <h2>A defined place for reconciliation</h2>
+    <p>
+      View definitions map source events to fields. Configured strategies decide
+      how those contributions change the view.
+    </p>
+    <p>
+      Multiple views can reuse the same sources with different mappings, update
+      rules and retained windows.
+    </p>
+    <p>
+      ZooGlass owns the reconciliation. A demo or application consumes its
+      result.
+    </p>
+  </div>
+</div>
+<section class="chapter">
+  <p class="eyebrow">Inside the runtime</p>
+  <h2>From publication to maintained state</h2>
+  <ol class="runtime-flow">
+    <li>
+      <strong>Validate</strong
+      ><span>Check the envelope, source and publication identity.</span>
+    </li>
+    <li>
+      <strong>Apply strategies</strong
+      ><span>Resolve entities and apply each field’s configured rules.</span>
+    </li>
+    <li>
+      <strong>Commit state</strong
+      ><span
+        >Install the view changes and recorded publication outcome
+        together.</span
+      >
+    </li>
+    <li>
+      <strong>Expose the result</strong
+      ><span
+        >Return the receipt and make the resulting snapshot available.</span
+      >
+    </li>
+  </ol>
+  <p class="annotation">
+    A rejected whole publication installs no staged target changes. An admitted
+    receipt can include different policy outcomes for different targets.
+  </p>
+</section>
+<section class="chapter two-column" id="persistence">
+  <div>
+    <h2>State that can survive a restart</h2>
+    <p>
+      Choose memory storage for transient runs or a database for durable state.
+      ZooGlass commits view state and retained publication outcomes atomically.
+    </p>
+    <p>
+      Recovery validates stored state before the service becomes ready. A source
+      retry after a lost acknowledgement can recover the retained outcome
+      instead of repeating the effect.
+    </p>
+    <a
+      href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/sqlite-storage.md"
+      >Database storage and recovery ↗</a
+    >
+  </div>
+  <div>
+    <h2>Accessing the view</h2>
+    <p>
+      Applications read snapshots of the maintained view or subscribe to live
+      updates. ZooGlass handles the field rules; the application chooses how to
+      present the result.
+    </p>
+    <p>
+      Sources publish events and receive acknowledgements. Publication
+      identities let them retry safely within the configured retention window.
+      The API guide describes the interfaces and their contracts.
+    </p>
+    <a
+      href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md"
+      >Publication API guide ↗</a
+    >
+  </div>
+</section>
+<section class="chapter" id="workbench">
+  <h2>Workbench around the system</h2>
+  <p class="measure">
+    Workbench is a deterministic timeline simulator that coordinates sources,
+    connections and checks around ZooGlass. A scenario brings the inputs,
+    deliberate failures and expected results together in one place.
+  </p>
+
+  <figure class="workbench-figure">
+    <svg
+      class="drawing"
+      viewBox="-140 -65 850 520"
+      role="img"
+      aria-label="Architecture cutaway: sources, ZooGlass and applications form a vertical stack. A clamp holds the stack, and three clipped leads connect the layers to an oscilloscope labelled Workbench. Workbench drives events, controls connections and checks results."
+    >
+      <!-- The clamp lies in a vertical plane along the stack's front-left axis.
+           Its extrusion follows the other horizontal axis of the plates. -->
+      <defs>
+        <path
+          id="workbench-frame"
+          d="M200 0H52Q0 0 0 52V313Q0 365 52 365H200V315H67Q48 315 48 296V69Q48 50 67 50H200Z"
+        />
+      </defs>
+      <g stroke="#655b4a" stroke-width="1.4" stroke-linejoin="round">
+        <g transform="matrix(1 .28 0 1 -110 -55)">
+          <path
+            d="M200 0H52Q0 0 0 52L10 20C30 -4 52 -14.28 78 -14.28H226Z"
+            fill="#e4dac6"
+          />
+          <path d="M200 0 226 -14.28V35.72L200 50Z" fill="#b2a48b" />
+          <path d="M67 315 93 300.72H226L200 315Z" fill="#e4dac6" />
+          <path d="M200 315 226 300.72V350.72L200 365Z" fill="#a19278" />
+          <path
+            d="M48 69Q48 50 67 50L93 35.72Q74 35.72 74 54.72V281.72Q74 300.72 93 300.72L67 315Q48 315 48 296Z"
+            fill="#9c8e75"
+          />
+          <use href="#workbench-frame" fill="#cbbda3" />
+          <path
+            d="M180 16H55Q17 16 17 54V311Q17 348 55 348H174"
+            fill="none"
+            stroke="#a39170"
+            stroke-width="2"
+          />
+        </g>
+      </g>
+      <!-- Cylindrical screw, interrupted where it passes through the clamp arm. -->
+      <g stroke="#655b4a" stroke-width="1.1" fill="#dfd9cb">
+        <path d="M96 282V313Q101 316 106 313V282Z" />
+        <path d="M96 364V403Q101 406 106 403V364Z" />
+        <path d="M103 283v29m0 53v37" stroke="#b3aa97" stroke-width="2" />
+        <path d="M96 287q5 3 10 0" fill="none" />
+        <path d="M96 292q5 3 10 0" fill="none" />
+        <path d="M96 297q5 3 10 0" fill="none" />
+        <path d="M96 302q5 3 10 0" fill="none" />
+        <path d="M96 307q5 3 10 0" fill="none" />
+        <path d="M96 312q5 3 10 0" fill="none" />
+        <path d="M96 369q5 3 10 0" fill="none" />
+        <path d="M96 374q5 3 10 0" fill="none" />
+        <path d="M96 379q5 3 10 0" fill="none" />
+        <path d="M96 384q5 3 10 0" fill="none" />
+        <path d="M96 389q5 3 10 0" fill="none" />
+        <path d="M96 394q5 3 10 0" fill="none" />
+        <path d="M96 399q5 3 10 0" fill="none" />
+        <path
+          d="M78 388 96 393 M106 396 125 401"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
+        <path d="M96 390v6m10-3v6" stroke-width="1.2" />
+      </g>
+      <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
+        <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
+      </g>
+      <g
+        transform="translate(25 7)"
+        fill="#eee7d9"
+        stroke="#655b4a"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+      >
+        <path d="M55 267 81 260 103 266 77 273Z" />
+        <path d="M55 267v8l22 6v-8Z" fill="#a89b84" />
+        <path d="M77 273 103 266v8l-26 7Z" fill="#8e806a" />
+      </g>
+      <g
+        transform="translate(0 205)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13" fill="none" />
+        <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
+      </g>
+      <g
+        transform="translate(0 116)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
+        <path d="M172 85v13" fill="none" />
+        <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
+      </g>
+      <g
+        transform="translate(0 25)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13" fill="none" />
+        <g fill="none">
+          <path d="m140 43 26 -7 24 7 -26 7 z" />
+          <path d="m145 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m202 43 26 -7 24 7 -26 7 z" />
+          <path d="m207 44.5 26 -7" />
+        </g>
+      </g>
+      <g
+        fill="#eee7d9"
+        stroke="#655b4a"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+      >
+        <!-- Upper contact shoe and lower swivel pad meet the plate surfaces. -->
+        <path d="M65 44 90 51v33l-25 -7Z" fill="#a89b84" />
+        <path d="M90 51 103 47v33l-13 4Z" fill="#8e806a" />
+      </g>
+      <!-- Instrument case uses the same projected axes as the stack. -->
+      <g
+        transform="matrix(1 .28 0 1 400 110)"
+        stroke="#655b4a"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+      >
+        <path d="M0 0 35 -19.8H245L210 0Z" fill="#e4dac6" />
+        <path d="M210 0 245 -19.8V130.2L210 150Z" fill="#a19278" />
+        <rect width="210" height="150" rx="4" fill="#d1c5af" />
+        <rect x="14" y="17" width="133" height="86" rx="4" fill="#353f3b" />
+        <g stroke="#77887a" opacity=".45" stroke-width=".6">
+          <path
+            d="M36 20v80m22-80v80m22-80v80m22-80v80m22-80v80M17 38h127M17 59h127M17 80h127"
+          />
+        </g>
+        <path
+          d="M19 74h18l8-23 12 34 13-48 12 33h16l7-18 12 19h23"
+          fill="none"
+          stroke="#c3d4a7"
+          stroke-width="1.7"
+        />
+        <g fill="#eee7d9">
+          <circle cx="174" cy="40" r="13" />
+          <circle cx="174" cy="78" r="9" />
+        </g>
+        <path d="M174 40l6-8m-6 46 5-4" />
+        <g fill="#655b4a">
+          <circle cx="20" cy="130" r="4" />
+          <circle cx="55" cy="130" r="4" />
+          <circle cx="90" cy="130" r="4" />
+        </g>
+        <text
+          x="108"
+          y="135"
+          font-size="14"
+          font-family="system-ui"
+          fill="#322c24"
+          stroke="none"
+        >
+          Workbench
+        </text>
+        <path d="M20 150v7h20v-7m130 0v7h20v-7" fill="#655b4a" />
+      </g>
+      <!-- Leads enter the sockets from below, remaining visible in front of the case. -->
+      <g fill="none" stroke-width="2.5" stroke-linecap="round">
+        <path
+          d="M340 69C412 42 365 306 409 302Q420 302 420 288V246"
+          stroke="#786149"
+        />
+        <path
+          d="M340 160C400 140 389 326 444 322Q455 322 455 307V256"
+          stroke="#6c7a74"
+        />
+        <path
+          d="M340 250C389 236 426 350 479 342Q490 342 490 326V266"
+          stroke="#8f7955"
+        />
+      </g>
+      <g
+        transform="translate(301 77) rotate(-15)"
+        stroke="#655b4a"
+        stroke-width="1"
+        stroke-linejoin="round"
+      >
+        <path d="M0 -5 23 -8 34 -3 34 4 22 9 0 6 10 2Z" fill="#d6d1c5" />
+        <path d="M0 -5 17 -1 0 6m5-9v4m5-3v4" fill="none" />
+        <path d="M23 -8h20v12H23Z" fill="#786149" />
+        <circle cx="20" cy="1" r="2" fill="#655b4a" />
+      </g>
+      <g
+        transform="translate(301 168) rotate(-15)"
+        stroke="#655b4a"
+        stroke-width="1"
+        stroke-linejoin="round"
+      >
+        <path d="M0 -5 23 -8 34 -3 34 4 22 9 0 6 10 2Z" fill="#d6d1c5" />
+        <path d="M0 -5 17 -1 0 6m5-9v4m5-3v4" fill="none" />
+        <path d="M23 -8h20v12H23Z" fill="#6c7a74" />
+        <circle cx="20" cy="1" r="2" fill="#655b4a" />
+      </g>
+      <g
+        transform="translate(301 258) rotate(-15)"
+        stroke="#655b4a"
+        stroke-width="1"
+        stroke-linejoin="round"
+      >
+        <path d="M0 -5 23 -8 34 -3 34 4 22 9 0 6 10 2Z" fill="#d6d1c5" />
+        <path d="M0 -5 17 -1 0 6m5-9v4m5-3v4" fill="none" />
+        <path d="M23 -8h20v12H23Z" fill="#8f7955" />
+        <circle cx="20" cy="1" r="2" fill="#655b4a" />
+      </g>
+    </svg>
+    <figcaption>
+      Workbench drives source events, controls client connections and checks
+      view results. The crocodile clips illustrate its integration points.
+    </figcaption>
+  </figure>
+  <div class="two-column">
+    <div>
+      <h3>Real interfaces, observable results</h3>
+      <p>
+        Workbench sends events through source connections and checks the state
+        exposed by ZooGlass. Expected values are assertions about the result,
+        not a replacement for the service’s reconciliation.
+      </p>
+    </div>
+    <div>
+      <h3>Presentation stays separate</h3>
+      <p>
+        Scenarios can run with protocol clients without a browser. Demo
+        applications add a visual explanation, and browser checks can exercise
+        their behaviour without making a particular UI part of the core scenario
+        runner.
+      </p>
+    </div>
+  </div>
+  <a class="text-link" href="verification.html#workbench"
+    >Follow a Workbench scenario →</a
   >
-    <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
-      <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
-    </g>
-    <g
-      transform="translate(0 205)"
-      stroke="currentColor"
-      stroke-linejoin="round"
-    >
-      <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
-      <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
-      <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-      <text
-        x="380"
-        y="43"
-        fill="currentColor"
-        stroke="none"
-        font-size="17"
-        font-family="system-ui"
-      >
-        Sources
-      </text>
-      <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
-      <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
-      <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
-    </g>
-    <g
-      transform="translate(0 116)"
-      stroke="currentColor"
-      stroke-linejoin="round"
-    >
-      <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
-      <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
-      <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-      <text
-        x="380"
-        y="43"
-        fill="currentColor"
-        stroke="none"
-        font-size="17"
-        font-family="system-ui"
-      >
-        ZooGlass
-      </text>
-      <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
-      <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
-      <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
-    </g>
-    <g
-      transform="translate(0 25)"
-      stroke="currentColor"
-      stroke-linejoin="round"
-    >
-      <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
-      <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
-      <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-      <text
-        x="380"
-        y="43"
-        fill="currentColor"
-        stroke="none"
-        font-size="17"
-        font-family="system-ui"
-      >
-        Applications
-      </text>
-      <g fill="none">
-        <path d="m78 43 26 -7 24 7 -26 7 z" />
-        <path d="m83 44.5 26 -7" />
-      </g>
-      <g fill="none">
-        <path d="m140 43 26 -7 24 7 -26 7 z" />
-        <path d="m145 44.5 26 -7" />
-      </g>
-      <g fill="none">
-        <path d="m202 43 26 -7 24 7 -26 7 z" />
-        <path d="m207 44.5 26 -7" />
-      </g>
-    </g>
-  </svg>
-  <figcaption>System cutaway · Read from the bottom up</figcaption>
-</figure>
-<dl>
-  <dt>Sources</dt>
-  <dd>Independent systems report facts about an entity.</dd>
-  <dt>ZooGlass</dt>
-  <dd>
-    A view definition maps events to fields. The configured rules decide which
-    values ZooGlass retains.
-  </dd>
-  <dt>Applications</dt>
-  <dd>
-    Subscribers receive a snapshot and subsequent changes. Each application
-    chooses how to present them.
-  </dd>
-</dl>
+  <a
+    class="text-link"
+    href="https://github.com/sproates/zooglass/blob/main/workbench/docs/source-map.md"
+    >Workbench source map ↗</a
+  >
+</section>

@@ -1,0 +1,118 @@
+<p class="eyebrow">The behaviour is part of the definition</p>
+<h1>Behaviours</h1>
+<p class="page-intro">
+  The same event can mean different things to different views. Choose the rule
+  for each field, then let ZooGlass apply it consistently.
+</p>
+<section class="chapter">
+  <h2>When delivery is imperfect</h2>
+  <div class="behaviour-list">
+    <article>
+      <h3>An older event arrives last</h3>
+      <div>
+        <p>
+          <code>latestBySequence</code> keeps the value with the highest
+          sequence number. An older report cannot replace it.
+        </p>
+        <p>
+          <code>historyBySequence</code> can use that same report to fill a gap
+          in ordered history. <code>arrival</code> is available when receipt
+          order is the intended rule.
+        </p>
+      </div>
+    </article>
+    <article>
+      <h3>A source retries an event</h3>
+      <div>
+        <p>
+          ZooGlass gives each publication an identity. An exact retry returns
+          its retained original outcome without applying it again. Reusing that
+          identity with different content is rejected.
+        </p>
+        <p class="annotation">
+          Identity retention is bounded. This is a defined retry window, not an
+          unlimited deduplication archive.
+        </p>
+      </div>
+    </article>
+    <article>
+      <h3>Two sources disagree</h3>
+      <div>
+        <p>
+          Configure source priority for a multi-input field. ZooGlass chooses
+          from the available contributions using that priority, without
+          comparing sequence numbers from unrelated sources.
+        </p>
+        <p>
+          Sources can also contribute to separate fields, with their keys mapped
+          to the same view entity.
+        </p>
+      </div>
+    </article>
+    <article>
+      <h3>Part of the view is missing</h3>
+      <div>
+        <p>
+          Required-field publication can wait for the contributions a view
+          needs. A partial set of inputs does not have to become a published
+          view.
+        </p>
+      </div>
+    </article>
+    <article>
+      <h3>A source goes quiet</h3>
+      <div>
+        <p>
+          Receipt-age freshness distinguishes an ageing value from a fresh
+          contribution while retaining the last known value.
+        </p>
+        <p class="annotation">
+          Freshness describes age, not completeness. A stale contribution does
+          not automatically change the configured source priority.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+<section class="chapter">
+  <h2>When the facts themselves change</h2>
+  <div class="two-column">
+    <article>
+      <h3>Corrections and withdrawals</h3>
+      <p>
+        With <code>activeFacts</code>, each fact has a stable birth sequence and
+        its own revision. Choose <code>latestFactRevision</code> to follow
+        corrections and withdrawals, or <code>firstFact</code> to preserve the
+        first accepted create.
+      </p>
+      <p>
+        A revision received before its create is rejected as
+        <code>unknownFact</code>. The source can retry after the create arrives.
+      </p>
+    </article>
+    <article>
+      <h3>A deliberate retention boundary</h3>
+      <p>
+        Fact collections have a configured capacity. Withdrawals leave
+        tombstones; explicit retirement removes older records and advances a
+        floor that prevents their reintroduction.
+      </p>
+      <p>
+        Each field owns its retained window. This is the current retained
+        collection, not an unlimited audit history.
+      </p>
+    </article>
+  </div>
+</section>
+<section class="closing">
+  <h2>Configuration selects real strategy code.</h2>
+  <p>
+    Strategies are named modules in ZooGlass. Configuration selects them;
+    runtime processing uses them. The application does not have to reproduce
+    their decisions.
+  </p>
+  <a
+    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md"
+    >Read the configuration guide ↗</a
+  ><a href="demonstrations.html#corrections">Walk through a corrected fact →</a>
+</section>
