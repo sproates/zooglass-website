@@ -186,9 +186,9 @@
   <figure class="workbench-figure">
     <svg
       class="drawing"
-      viewBox="-150 -90 800 550"
+      viewBox="-140 -65 850 520"
       role="img"
-      aria-label="Architecture cutaway: sources, ZooGlass and applications form a vertical stack. Workbench wraps around all three layers, coordinating events, checking views and controlling client connections."
+      aria-label="Architecture cutaway: sources, ZooGlass and applications form a vertical stack. A clamp holds the stack, and three clipped leads connect the layers to an oscilloscope labelled Workbench. Workbench drives events, controls connections and checks results."
     >
       <!-- The clamp lies in a vertical plane along the stack's front-left axis.
            Its extrusion follows the other horizontal axis of the plates. -->
@@ -206,7 +206,7 @@
         />
         <g transform="matrix(1 .28 0 1 -110 -55)">
           <path
-            d="M200 0H52Q0 0 0 52L26 37.72Q26 -14.28 78 -14.28H226Z"
+            d="M200 0H52Q0 0 0 52L12 35Q12 -12 64 -12H226Z"
             fill="#e4dac6"
           />
           <path d="M200 0 226 -14.28V35.72L200 50Z" fill="#b2a48b" />
@@ -220,49 +220,52 @@
             stroke="#a39170"
             stroke-width="2"
           />
-          <!-- Only the exposed screw is visible; the lower arm occludes its middle. -->
-          <path
-            d="M179 280V315H191V280Z M179 365V407H191V365Z"
-            fill="#e5dfd2"
-          />
-          <path
-            d="M191 280 199 275.76V310.76L191 315Z M191 365 199 360.76V402.76L191 407Z"
-            fill="#9a9385"
-          />
-          <g stroke="#817969">
-            <path d="M179 285l12 -3" />
-            <path d="M179 291l12 -3" />
-            <path d="M179 297l12 -3" />
-            <path d="M179 303l12 -3" />
-            <path d="M179 309l12 -3" />
-            <path d="M179 372l12 -3" />
-            <path d="M179 378l12 -3" />
-            <path d="M179 384l12 -3" />
-            <path d="M179 390l12 -3" />
-            <path d="M179 396l12 -3" />
-            <path d="M179 402l12 -3" />
+          <g transform="translate(25 0)">
+            <!-- Only the exposed screw is visible; the lower arm occludes its middle. -->
+            <path
+              d="M179 280V315H191V280Z M179 365V407H191V365Z"
+              fill="#e5dfd2"
+            />
+            <path
+              d="M191 280 199 275.76V310.76L191 315Z M191 365 199 360.76V402.76L191 407Z"
+              fill="#9a9385"
+            />
+            <g stroke="#817969">
+              <path d="M179 285l12 -3" />
+              <path d="M179 291l12 -3" />
+              <path d="M179 297l12 -3" />
+              <path d="M179 303l12 -3" />
+              <path d="M179 309l12 -3" />
+              <path d="M179 372l12 -3" />
+              <path d="M179 378l12 -3" />
+              <path d="M179 384l12 -3" />
+              <path d="M179 390l12 -3" />
+              <path d="M179 396l12 -3" />
+              <path d="M179 402l12 -3" />
+            </g>
+            <path
+              d="M157 397H218"
+              fill="none"
+              stroke="#655b4a"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
           </g>
-          <path
-            d="M157 397H218"
-            fill="none"
-            stroke="#655b4a"
-            stroke-width="5"
-            stroke-linecap="round"
-          />
         </g>
       </g>
-      <path d="M-95 -74V-28" fill="none" stroke="currentColor" />
-      <text
-        x="-110"
-        y="-78"
-        fill="currentColor"
-        font-family="system-ui"
-        font-size="16"
-      >
-        Workbench
-      </text>
       <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
         <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
+      </g>
+      <g
+        transform="translate(25 7)"
+        fill="#eee7d9"
+        stroke="#655b4a"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+      >
+        <path d="M55 267 81 260 103 266 77 273Z" />
+        <path d="M55 267v8l22 6v-8Z" fill="#a89b84" />
+        <path d="M77 273 103 266v8l-26 7Z" fill="#8e806a" />
       </g>
       <g
         transform="translate(0 205)"
@@ -271,17 +274,7 @@
       >
         <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
         <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
-        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-        <text
-          x="380"
-          y="43"
-          fill="currentColor"
-          stroke="none"
-          font-size="17"
-          font-family="system-ui"
-        >
-          Sources
-        </text>
+        <path d="M172 85v13" fill="none" />
         <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
         <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
         <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
@@ -293,17 +286,7 @@
       >
         <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
         <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
-        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-        <text
-          x="380"
-          y="43"
-          fill="currentColor"
-          stroke="none"
-          font-size="17"
-          font-family="system-ui"
-        >
-          ZooGlass
-        </text>
+        <path d="M172 85v13" fill="none" />
         <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
         <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
         <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
@@ -315,21 +298,7 @@
       >
         <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
         <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
-        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-        <text
-          x="380"
-          y="43"
-          fill="currentColor"
-          stroke="none"
-          font-size="17"
-          font-family="system-ui"
-        >
-          Applications
-        </text>
-        <g fill="none">
-          <path d="m78 43 26 -7 24 7 -26 7 z" />
-          <path d="m83 44.5 26 -7" />
-        </g>
+        <path d="M172 85v13" fill="none" />
         <g fill="none">
           <path d="m140 43 26 -7 24 7 -26 7 z" />
           <path d="m145 44.5 26 -7" />
@@ -351,25 +320,103 @@
         <path d="M55 64 81 57 103 63 77 70Z" />
         <path d="M55 64v8l22 6v-8Z" fill="#a89b84" />
         <path d="M77 70 103 63v8l-26 7Z" fill="#8e806a" />
-        <path d="M55 267 81 260 103 266 77 273Z" />
-        <path d="M55 267v8l22 6v-8Z" fill="#a89b84" />
-        <path d="M77 273 103 266v8l-26 7Z" fill="#8e806a" />
       </g>
-      <g stroke="#65533d" stroke-width="1.8" fill="none">
-        <path d="M-58 67H32 M-58 156H32 M-58 247H32" />
-        <path d="m25 63 7 4-7 4m0 81 7 4-7 4m0 83 7 4-7 4" />
-        <circle cx="-58" cy="67" r="3" fill="#65533d" />
-        <circle cx="-58" cy="156" r="3" fill="#65533d" />
-        <circle cx="-58" cy="247" r="3" fill="#65533d" />
+      <!-- Instrument case uses the same projected axes as the stack. -->
+      <g
+        transform="matrix(1 .28 0 1 400 110)"
+        stroke="#655b4a"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+      >
+        <path d="M0 0 35 -19.8H245L210 0Z" fill="#e4dac6" />
+        <path d="M210 0 245 -19.8V130.2L210 150Z" fill="#a19278" />
+        <rect width="210" height="150" rx="4" fill="#d1c5af" />
+        <rect x="14" y="17" width="133" height="86" rx="4" fill="#353f3b" />
+        <g stroke="#77887a" opacity=".45" stroke-width=".6">
+          <path
+            d="M36 20v80m22-80v80m22-80v80m22-80v80m22-80v80M17 38h127M17 59h127M17 80h127"
+          />
+        </g>
+        <path
+          d="M19 74h18l8-23 12 34 13-48 12 33h16l7-18 12 19h23"
+          fill="none"
+          stroke="#c3d4a7"
+          stroke-width="1.7"
+        />
+        <g fill="#eee7d9">
+          <circle cx="174" cy="40" r="13" />
+          <circle cx="174" cy="78" r="9" />
+        </g>
+        <path d="M174 40l6-8m-6 46 5-4" />
+        <g fill="#655b4a">
+          <circle cx="20" cy="130" r="4" />
+          <circle cx="55" cy="130" r="4" />
+          <circle cx="90" cy="130" r="4" />
+        </g>
+        <text
+          x="108"
+          y="135"
+          font-size="14"
+          font-family="system-ui"
+          fill="#322c24"
+          stroke="none"
+        >
+          Workbench
+        </text>
+        <path d="M20 150v7h20v-7m130 0v7h20v-7" fill="#655b4a" />
       </g>
-      <g fill="currentColor" font-family="system-ui" font-size="13">
-        <text x="380" y="89">Controls client connections</text>
-        <text x="380" y="180">Checks view results</text>
-        <text x="380" y="269">Drives events and delivery faults</text>
+      <!-- Leads enter the sockets from below, remaining visible in front of the case. -->
+      <g fill="none" stroke-width="2.5" stroke-linecap="round">
+        <path
+          d="M340 69C412 42 365 306 409 302Q420 302 420 288V246"
+          stroke="#786149"
+        />
+        <path
+          d="M340 160C400 140 389 326 444 322Q455 322 455 307V256"
+          stroke="#6c7a74"
+        />
+        <path
+          d="M340 250C389 236 426 350 479 342Q490 342 490 326V266"
+          stroke="#8f7955"
+        />
+      </g>
+      <g
+        transform="translate(301 77) rotate(-15)"
+        stroke="#655b4a"
+        stroke-width="1"
+        stroke-linejoin="round"
+      >
+        <path d="M0 -5 23 -8 34 -3 34 4 22 9 0 6 10 2Z" fill="#d6d1c5" />
+        <path d="M0 -5 17 -1 0 6m5-9v4m5-3v4" fill="none" />
+        <path d="M23 -8h20v12H23Z" fill="#786149" />
+        <circle cx="20" cy="1" r="2" fill="#655b4a" />
+      </g>
+      <g
+        transform="translate(301 168) rotate(-15)"
+        stroke="#655b4a"
+        stroke-width="1"
+        stroke-linejoin="round"
+      >
+        <path d="M0 -5 23 -8 34 -3 34 4 22 9 0 6 10 2Z" fill="#d6d1c5" />
+        <path d="M0 -5 17 -1 0 6m5-9v4m5-3v4" fill="none" />
+        <path d="M23 -8h20v12H23Z" fill="#6c7a74" />
+        <circle cx="20" cy="1" r="2" fill="#655b4a" />
+      </g>
+      <g
+        transform="translate(301 258) rotate(-15)"
+        stroke="#655b4a"
+        stroke-width="1"
+        stroke-linejoin="round"
+      >
+        <path d="M0 -5 23 -8 34 -3 34 4 22 9 0 6 10 2Z" fill="#d6d1c5" />
+        <path d="M0 -5 17 -1 0 6m5-9v4m5-3v4" fill="none" />
+        <path d="M23 -8h20v12H23Z" fill="#8f7955" />
+        <circle cx="20" cy="1" r="2" fill="#655b4a" />
       </g>
     </svg>
     <figcaption>
-      System cutaway · Workbench coordinates scenarios around the stack
+      Workbench drives source events, controls client connections and checks
+      view results. The clipped leads illustrate its integration points.
     </figcaption>
   </figure>
   <div class="two-column">
