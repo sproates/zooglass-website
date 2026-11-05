@@ -506,3 +506,13 @@ th {
   max-width: 850px;
   margin: 24px auto;
 }
+
+.application-work {
+  max-width: 65ch;
+  padding-left: 1.2em;
+  margin: 24px 0;
+}
+.application-work li {
+  padding-left: 0.3em;
+  margin-bottom: 14px;
+}
