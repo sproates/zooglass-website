@@ -1,0 +1,115 @@
+<p class="eyebrow">Evidence behind the behaviour</p>
+<h1>Verification</h1>
+<p class="page-intro">
+  A useful contract must hold when delivery fails, when a process stops and when
+  a source tries again.
+</p>
+<div class="overview">
+  <p class="lead">Check the state an application receives.</p>
+  <section>
+    <h2>Several levels of evidence</h2>
+    <p>
+      Focused strategy tests check individual decisions. Service tests exercise
+      real interfaces. Crash tests start a separate ZooGlass process, terminate
+      it at controlled boundaries and inspect the recovered result.
+    </p>
+    <p>
+      Workbench adds controlled delivery scenarios. The vehicle demo makes some
+      of their effects visible; it is not the only evidence for the core.
+    </p>
+  </section>
+</div>
+<section class="chapter">
+  <h2>What the checks ask</h2>
+  <div class="evidence-list">
+    <article>
+      <h3>Did a lost acknowledgement repeat the effect?</h3>
+      <p>
+        Stop the service before commit, after commit but before acknowledgement,
+        and after acknowledgement. Restart it, retry the publication and check
+        the durable view and receipt.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/0903ad8/zooglass/src/test/java/io/zooglass/v2/SqliteCrashRecoveryTests.java"
+        >SQLite crash recovery tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Did a withdrawn fact come back?</h3>
+      <p>
+        Crash around fact retraction and retirement commits. Check that
+        recovered projections, tombstones, retirement floors and retry outcomes
+        agree.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/0903ad8/zooglass/src/test/java/io/zooglass/v2/FactCrashTests.java"
+        >Fact crash tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Does the real interface honour the rule?</h3>
+      <p>
+        Publish facts and retirement controls through WebSockets, then inspect
+        HTTP snapshots. Exercise corrections, withdrawals and rejection outcomes
+        at the service boundary.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/0903ad8/zooglass/src/test/java/io/zooglass/v2/FactServiceTests.java"
+        >Fact service tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Is ageing still meaningful after recovery?</h3>
+      <p>
+        Check receipt-age state through restart and clock changes, including the
+        distinction between a recovered value and a newly received contribution.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/0903ad8/zooglass/src/test/java/io/zooglass/v2/ReceiptAgeRecoveryTests.java"
+        >Freshness recovery tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Can invalid state become a ready service?</h3>
+      <p>
+        Recovery tests check persisted state and configuration compatibility.
+        Invalid recovery must fail rather than expose a partially recovered
+        view.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/0903ad8/zooglass/src/test/java/io/zooglass/v2/SqliteRecoveryTests.java"
+        >Storage recovery tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Do different views retain different facts?</h3>
+      <p>
+        Exercise independent revision policies, bounded collections and explicit
+        retirement. Check the results together with publication and freshness
+        behaviour.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/0903ad8/zooglass/src/test/java/io/zooglass/v2/FactCompositionTests.java"
+        >Fact composition tests ↗</a
+      >
+    </article>
+  </div>
+  <p class="annotation">
+    Evidence links are pinned to main revision 0903ad8. Crash checks use the
+    real SQLite driver and process termination; they do not simulate hardware
+    power loss.
+  </p>
+</section>
+<section class="closing">
+  <h2>Inspect it. Reproduce it.</h2>
+  <p>
+    The source includes the tests, their fixtures and instructions for running
+    them. Start with the testing guide for the distinction between core
+    contracts, integration checks and demo-specific browser checks.
+  </p>
+  <a href="https://github.com/sproates/zooglass/blob/main/docs/testing.md"
+    >Testing guide ↗</a
+  ><a href="https://github.com/sproates/zooglass/blob/main/workbench/README.md"
+    >Workbench Scenario Simulator ↗</a
+  >
+</section>

@@ -1,4 +1,9 @@
+<p class="eyebrow">Make the behaviour visible</p>
 <h1>Demonstrations</h1>
+<p class="page-intro">
+  Watch imperfect delivery in the vehicle recording, then follow a fact as it is
+  corrected and withdrawn.
+</p>
 <figure>
   <video
     controls
@@ -26,12 +31,113 @@
     position. A duplicate leaves it there too.
   </p>
   <p>
-    In this recording, watch Car 3 during its source outage. The other cars keep updating. The silent car’s
-    marker stays at its last known position, and the display indicates that the
-    report is ageing. The viewer also uses this grey, dashed style when its own connection is interrupted. When a fresh report arrives, the marker can move again.
+    In this recording, watch Car 3 during its source outage. The other cars keep
+    updating. The silent car’s marker stays at its last known position, and the
+    display indicates that the report is ageing. The viewer also uses this grey,
+    dashed style when its own connection is interrupted. When a fresh report
+    arrives, the marker can move again.
   </p>
   <a
     href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md"
     >Run the demo locally ↗</a
   >
 </div>
+<p class="annotation">
+  The recording and worked example illustrate ZooGlass behaviour; this website
+  does not connect to a running ZooGlass instance.
+</p>
+<section class="chapter" id="corrections">
+  <p class="eyebrow">A v2 worked example</p>
+  <h2>A fact can change.<br />The view follows its rule.</h2>
+  <p class="measure">
+    A match feed reports a goal, corrects the scorer and later withdraws the
+    goal. Two fields consume that same feed with different revision strategies.
+  </p>
+  <div class="two-column example-config">
+    <div>
+      <h3>Follow the corrections</h3>
+      <pre><code>"goals": {
+  "sourceId": "match-feed",
+  "type": "goal",
+  "mode": "activeFacts",
+  "facts": {
+    "revision": "latestFactRevision",
+    "maxRetainedFacts": 200,
+    "minimumBirthSequence": 1
+  }
+}</code></pre>
+    </div>
+    <div>
+      <h3>Keep the original</h3>
+      <p>
+        Use the same field definition in another view, changing the revision
+        strategy to:
+      </p>
+      <pre><code>"revision": "firstFact"</code></pre>
+      <p>
+        The source does not need to publish a second version of its feed. Each
+        field applies its own strategy.
+      </p>
+      <p class="annotation">
+        These are field definitions inside a v2 configuration. The linked guide
+        supplies the envelope format and operating instructions.
+      </p>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <caption>
+        Expected active collection after each publication
+      </caption>
+      <thead>
+        <tr>
+          <th>Source publication</th>
+          <th>latestFactRevision</th>
+          <th>firstFact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Create · birth 40, revision 1<br />Scorer: Player A</td>
+          <td>Player A</td>
+          <td>Player A</td>
+        </tr>
+        <tr>
+          <td>Revise · birth 40, revision 2<br />Scorer: Player B</td>
+          <td>Player B</td>
+          <td>Player A</td>
+        </tr>
+        <tr>
+          <td>Retract · birth 40, revision 3</td>
+          <td>Empty collection</td>
+          <td>Player A</td>
+        </tr>
+        <tr>
+          <td>Retry that same retraction</td>
+          <td>Unchanged</td>
+          <td>Unchanged</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="measure">
+    The correction and retraction have new publication sequences but refer to
+    the same fact birth. The first-fact field rejects those alterations as
+    immutable; the latest-revision field follows them. An exact retry returns
+    its retained receipt.
+  </p>
+  <a
+    class="text-link"
+    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/fact-collections.md"
+    >Run this through the fact collections guide ↗</a
+  >
+</section>
+<section class="closing">
+  <h2>What this removes from the application</h2>
+  <p>
+    The application reads a retained collection. It does not have to maintain a
+    revision index, remove withdrawn facts, suppress repeated publications or
+    rebuild those decisions after a durable restart.
+  </p>
+  <a href="verification.html">See the tests behind these behaviours →</a>
+</section>

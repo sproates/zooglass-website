@@ -1,103 +1,195 @@
+<p class="eyebrow">Where the responsibilities live</p>
 <h1>Architecture</h1>
-<figure>
-  <svg
-    class="drawing"
-    viewBox="0 0 540 330"
-    role="img"
-    aria-label="Architecture cutaway, bottom to top: sources send events, ZooGlass applies view rules, applications subscribe to snapshots and updates."
+<p class="page-intro">
+  Sources publish events. ZooGlass maintains the view. Applications decide how
+  to present it.
+</p>
+<div class="architecture-overview">
+  <figure>
+    <svg
+      class="drawing"
+      viewBox="0 0 540 330"
+      role="img"
+      aria-label="Architecture cutaway, bottom to top: sources send events, ZooGlass applies view rules, applications subscribe to snapshots and updates."
+    >
+      <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
+        <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
+      </g>
+      <g
+        transform="translate(0 205)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          Sources
+        </text>
+        <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
+      </g>
+      <g
+        transform="translate(0 116)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          ZooGlass
+        </text>
+        <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
+      </g>
+      <g
+        transform="translate(0 25)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          Applications
+        </text>
+        <g fill="none">
+          <path d="m78 43 26 -7 24 7 -26 7 z" />
+          <path d="m83 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m140 43 26 -7 24 7 -26 7 z" />
+          <path d="m145 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m202 43 26 -7 24 7 -26 7 z" />
+          <path d="m207 44.5 26 -7" />
+        </g>
+      </g>
+    </svg>
+    <figcaption>System cutaway · Read from the bottom up</figcaption>
+  </figure>
+  <div class="layer-notes">
+    <h2>A defined place for reconciliation</h2>
+    <p>
+      View definitions map source events to fields. Configured strategies decide
+      how those contributions change the view.
+    </p>
+    <p>
+      Multiple views can reuse the same sources with different mappings, update
+      rules and retained windows.
+    </p>
+    <p>
+      ZooGlass owns the reconciliation. A demo or application consumes its
+      result.
+    </p>
+  </div>
+</div>
+<section class="chapter">
+  <p class="eyebrow">Inside the runtime</p>
+  <h2>From publication to maintained state</h2>
+  <ol class="runtime-flow">
+    <li>
+      <strong>Validate</strong
+      ><span>Check the envelope, source and publication identity.</span>
+    </li>
+    <li>
+      <strong>Apply strategies</strong
+      ><span>Resolve entities and apply each field’s configured rules.</span>
+    </li>
+    <li>
+      <strong>Commit state</strong
+      ><span
+        >Install the view changes and recorded publication outcome
+        together.</span
+      >
+    </li>
+    <li>
+      <strong>Expose the result</strong
+      ><span
+        >Return the receipt and make the resulting snapshot available.</span
+      >
+    </li>
+  </ol>
+  <p class="annotation">
+    The v2 publication path. A rejected whole publication installs no staged
+    target changes. An admitted receipt can include different policy outcomes
+    for different targets.
+  </p>
+</section>
+<section class="chapter two-column" id="persistence">
+  <div>
+    <h2>State that can survive a restart</h2>
+    <p>
+      Choose memory storage for transient runs or SQLite for durable state.
+      SQLite commits view state and retained publication outcomes atomically.
+    </p>
+    <p>
+      Recovery validates stored state before the service becomes ready. A source
+      retry after a lost acknowledgement can recover the retained outcome
+      instead of repeating the effect.
+    </p>
+    <a
+      href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/sqlite-storage.md"
+      >SQLite storage and recovery ↗</a
+    >
+  </div>
+  <div>
+    <h2>Accessing the view</h2>
+    <p>
+      The live-view API supplies subscriptions, snapshots and subsequent
+      updates. It powers the vehicle demo.
+    </p>
+    <p>
+      The v2 API provides identified publication ingestion, configurable
+      strategies, optional persistence and HTTP snapshots. The API guide
+      describes the interfaces and their contracts.
+    </p>
+    <a
+      href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md"
+      >The v2 API contract ↗</a
+    >
+  </div>
+</section>
+<section class="closing">
+  <p class="eyebrow">Alongside the system</p>
+  <h2>Workbench exercises the boundaries.</h2>
+  <p>
+    The Workbench Scenario Simulator produces controlled inputs and delivery
+    failures, runs scenarios and checks observable outcomes. It tests ZooGlass
+    through its interfaces; it does not reconcile events on ZooGlass’s behalf.
+  </p>
+  <p>
+    Demo applications make those outcomes visible. Their presentation and
+    controls are separate from ZooGlass’s core behaviour.
+  </p>
+  <a href="verification.html">Explore the verification →</a
+  ><a
+    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/source-map.md"
+    >Explore the source map ↗</a
   >
-    <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
-      <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
-    </g>
-    <g
-      transform="translate(0 205)"
-      stroke="currentColor"
-      stroke-linejoin="round"
-    >
-      <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
-      <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
-      <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-      <text
-        x="380"
-        y="43"
-        fill="currentColor"
-        stroke="none"
-        font-size="17"
-        font-family="system-ui"
-      >
-        Sources
-      </text>
-      <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
-      <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
-      <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
-    </g>
-    <g
-      transform="translate(0 116)"
-      stroke="currentColor"
-      stroke-linejoin="round"
-    >
-      <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
-      <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
-      <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-      <text
-        x="380"
-        y="43"
-        fill="currentColor"
-        stroke="none"
-        font-size="17"
-        font-family="system-ui"
-      >
-        ZooGlass
-      </text>
-      <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
-      <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
-      <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
-    </g>
-    <g
-      transform="translate(0 25)"
-      stroke="currentColor"
-      stroke-linejoin="round"
-    >
-      <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
-      <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
-      <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
-      <text
-        x="380"
-        y="43"
-        fill="currentColor"
-        stroke="none"
-        font-size="17"
-        font-family="system-ui"
-      >
-        Applications
-      </text>
-      <g fill="none">
-        <path d="m78 43 26 -7 24 7 -26 7 z" />
-        <path d="m83 44.5 26 -7" />
-      </g>
-      <g fill="none">
-        <path d="m140 43 26 -7 24 7 -26 7 z" />
-        <path d="m145 44.5 26 -7" />
-      </g>
-      <g fill="none">
-        <path d="m202 43 26 -7 24 7 -26 7 z" />
-        <path d="m207 44.5 26 -7" />
-      </g>
-    </g>
-  </svg>
-  <figcaption>System cutaway · Read from the bottom up</figcaption>
-</figure>
-<dl>
-  <dt>Sources</dt>
-  <dd>Independent systems report facts about an entity.</dd>
-  <dt>ZooGlass</dt>
-  <dd>
-    A view definition maps events to fields. The configured rules decide which
-    values ZooGlass retains.
-  </dd>
-  <dt>Applications</dt>
-  <dd>
-    Subscribers receive a snapshot and subsequent changes. Each application
-    chooses how to present them.
-  </dd>
-</dl>
+</section>

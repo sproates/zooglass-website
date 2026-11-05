@@ -3,53 +3,107 @@
   <svg class="mark" viewBox="0 0 220 170" aria-hidden="true">
     <!-- A brass rim with an ivory lens and an angled handle. -->
     <g stroke="#65533d" stroke-linejoin="round">
-      <path d="m143 111 12 12 -5 5 -12 -12z" fill="#baa683"/>
-      <path d="M151 122q3 -3 6 0l27 25q5 5 0 10t-10 -1l-24 -28q-2 -3 1 -6z" fill="#8b7453"/>
-      <circle cx="102" cy="74" r="58" fill="#cfbc99" stroke-width="2.5"/>
-      <circle cx="102" cy="74" r="53" fill="#fbf7ed" stroke-width="1.5"/>
+      <path d="m143 111 12 12 -5 5 -12 -12z" fill="#baa683" />
+      <path
+        d="M151 122q3 -3 6 0l27 25q5 5 0 10t-10 -1l-24 -28q-2 -3 1 -6z"
+        fill="#8b7453"
+      />
+      <circle cx="102" cy="74" r="58" fill="#cfbc99" stroke-width="2.5" />
+      <circle cx="102" cy="74" r="53" fill="#fbf7ed" stroke-width="1.5" />
     </g>
     <!-- The elephant faces right, with its trunk curling up at the tip. -->
     <g fill="#544c40">
-      <path d="M67 78c-1 -13 7 -25 21 -27 9 -2 15 0 21 1
+      <path
+        d="M67 78c-1 -13 7 -25 21 -27 9 -2 15 0 21 1
         5 -7 16 -9 23 -3 8 6 8 15 8 26 0 6 0 10 3 10
         3 0 4 -5 5 -8 3 8 1 17 -7 18 -8 1 -12 -8 -13 -18
         l-5 3 -2 20h-8l-2 -15 -9 1 -2 14h-7l-2 -15
-        -9 -2 -3 17h-8l1 -24c-3 3 -4 8 -5 11l-3 -1c0 -4 2 -11 4 -15z"/>
-      <circle cx="131" cy="62" r="1.7" fill="#fbf7ed"/>
-      <path d="M122 55c-4 -4 -12 -3 -15 2 -3 7 1 18 7 21
-        5 -1 9 -7 10 -12" fill="none" stroke="#fbf7ed" stroke-width="2.2" stroke-linecap="round"/>
+        -9 -2 -3 17h-8l1 -24c-3 3 -4 8 -5 11l-3 -1c0 -4 2 -11 4 -15z"
+      />
+      <circle cx="131" cy="62" r="1.7" fill="#fbf7ed" />
+      <path
+        d="M122 55c-4 -4 -12 -3 -15 2 -3 7 1 18 7 21
+        5 -1 9 -7 10 -12"
+        fill="none"
+        stroke="#fbf7ed"
+        stroke-width="2.2"
+        stroke-linecap="round"
+      />
     </g>
   </svg>
 </div>
+<p class="eyebrow">Event-driven live views</p>
 <div class="overview">
-  <p class="lead">
-    ZooGlass maintains live views from events produced by independent systems.
-    Your application can subscribe to a view, receive its current state and
-    follow subsequent changes.
-  </p>
+  <div>
+    <p class="lead">
+      Independent sources.<br />A view your application can use.
+    </p>
+    <p class="intro">
+      ZooGlass maintains application views from events produced by independent
+      systems. You define what belongs in each field and how updates should be
+      handled. ZooGlass keeps the resulting state.
+    </p>
+    <a class="text-link" href="architecture.html">Explore the architecture →</a>
+  </div>
   <section>
     <h2>The problem it solves</h2>
     <p>
-      When events arrive late, arrive twice or go missing, the last message
-      received may tell only part of the story. Which value should an
-      application show? What should a returning subscriber see after missing
-      several updates?
+      Events arrive late, arrive twice, contradict an earlier report or stop
+      arriving altogether. Combining them into a useful view means deciding what
+      to keep, what to change and what is no longer fresh.
     </p>
     <p>
-      You configure which sources contribute to each field and choose how it
-      should handle updates. ZooGlass applies the configured strategy for each
-      field as events arrive, so each application can use the resulting view
-      without implementing those rules itself.
+      Those decisions often end up scattered across application services and
+      client code. ZooGlass gives them a defined home: configurable strategies
+      applied as events arrive.
     </p>
     <p>
-      One strategy keeps the value with the highest sequence number. Another
-      keeps a history in sequence order. The same late event can fill a gap in
-      the history while leaving the current value intact.
-    </p>
-    <p>
-      You can test those decisions with the Workbench Scenario Simulator. Set up
-      a sequence of events and disconnects, then check both the view ZooGlass
-      maintains and the snapshot a subscriber receives when it reconnects.
+      Your application uses the resulting view without implementing those rules
+      itself.
     </p>
   </section>
 </div>
+<section class="chapter">
+  <div class="section-heading">
+    <p class="eyebrow">A smaller application responsibility</p>
+    <h2>Define the view.<br />Keep the rules together.</h2>
+  </div>
+  <div class="three-column">
+    <article>
+      <h3>Choose the behaviour</h3>
+      <p>
+        Keep the latest value, preserve ordered history, choose between sources
+        or follow corrections to individual facts. Different views can use the
+        same source differently.
+      </p>
+      <a href="behaviours.html">Configurable behaviours →</a>
+    </article>
+    <article>
+      <h3>Keep useful state</h3>
+      <p>
+        Distinguish missing and ageing contributions. With SQLite storage,
+        recover committed views and retained retry outcomes when ZooGlass
+        restarts.
+      </p>
+      <a href="architecture.html#persistence">State and recovery →</a>
+    </article>
+    <article>
+      <h3>Make it testable</h3>
+      <p>
+        Exercise delivery failures deliberately. Check the view an application
+        receives, including what survives a crash and what a repeated
+        publication does.
+      </p>
+      <a href="verification.html">How it is verified →</a>
+    </article>
+  </div>
+</section>
+<section class="closing">
+  <h2>For applications that combine independent updates.</h2>
+  <p>
+    ZooGlass fits where an application needs maintained state with explicit
+    rules for imperfect event delivery. Sources still own their facts.
+    Applications still own their presentation.
+  </p>
+  <a href="demonstrations.html">See the behaviours explained →</a>
+</section>

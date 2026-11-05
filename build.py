@@ -8,13 +8,17 @@ from xml.etree import ElementTree as XML
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "src"
 PAGES = {
-    "index.html": "ZooGlass",
+    "index.html": "Overview",
+    "behaviours.html": "Behaviours",
     "architecture.html": "Architecture",
     "demonstrations.html": "Demonstrations",
+    "verification.html": "Verification",
 }
 
 
 DESCRIPTIONS = {
+    "behaviours.html": "Choose how ZooGlass handles late events, retries, source priority, freshness, corrections and retained fact collections.",
+    "verification.html": "Explore the service and crash recovery tests behind ZooGlass behaviour, with links to the source and reproducible checks.",
     "index.html": "ZooGlass maintains live views from independent event sources. Configure how each field handles late and duplicate events, and subscribe to the resulting view.",
     "architecture.html": "See where ZooGlass fits between event sources and applications, how events contribute to fields, and how subscribers receive snapshots and updates.",
     "demonstrations.html": "Watch six simulated cars report their positions through ZooGlass. See what happens to the map when a car stops reporting and reconnects.",
