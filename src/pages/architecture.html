@@ -199,20 +199,15 @@
         />
       </defs>
       <g stroke="#655b4a" stroke-width="1.4" stroke-linejoin="round">
-        <use
-          href="#workbench-frame"
-          transform="matrix(1 .28 0 1 -84 -62)"
-          fill="#b2a48b"
-        />
         <g transform="matrix(1 .28 0 1 -110 -55)">
           <path
-            d="M200 0H52Q0 0 0 52L12 35Q12 -12 64 -12H226Z"
+            d="M200 0H52Q0 0 0 52V37.72Q0 -14.28 52 -14.28H226Z"
             fill="#e4dac6"
           />
           <path d="M200 0 226 -14.28V35.72L200 50Z" fill="#b2a48b" />
           <path d="M67 315 93 300.72H226L200 315Z" fill="#e4dac6" />
           <path d="M200 315 226 300.72V350.72L200 365Z" fill="#a19278" />
-          <path d="M48 69 74 54.72V281.72L48 296Z" fill="#9c8e75" />
+          <path d="M48 69Q48 50 67 50L93 35.72Q74 35.72 74 54.72V281.72Q74 300.72 93 300.72L67 315Q48 315 48 296Z" fill="#9c8e75" />
           <use href="#workbench-frame" fill="#cbbda3" />
           <path
             d="M180 16H55Q17 16 17 54V311Q17 348 55 348H174"
@@ -220,38 +215,27 @@
             stroke="#a39170"
             stroke-width="2"
           />
-          <g transform="translate(25 0)">
-            <!-- Only the exposed screw is visible; the lower arm occludes its middle. -->
-            <path
-              d="M179 280V315H191V280Z M179 365V407H191V365Z"
-              fill="#e5dfd2"
-            />
-            <path
-              d="M191 280 199 275.76V310.76L191 315Z M191 365 199 360.76V402.76L191 407Z"
-              fill="#9a9385"
-            />
-            <g stroke="#817969">
-              <path d="M179 285l12 -3" />
-              <path d="M179 291l12 -3" />
-              <path d="M179 297l12 -3" />
-              <path d="M179 303l12 -3" />
-              <path d="M179 309l12 -3" />
-              <path d="M179 372l12 -3" />
-              <path d="M179 378l12 -3" />
-              <path d="M179 384l12 -3" />
-              <path d="M179 390l12 -3" />
-              <path d="M179 396l12 -3" />
-              <path d="M179 402l12 -3" />
-            </g>
-            <path
-              d="M157 397H218"
-              fill="none"
-              stroke="#655b4a"
-              stroke-width="5"
-              stroke-linecap="round"
-            />
-          </g>
         </g>
+      </g>
+      <!-- Cylindrical screw, interrupted where it passes through the clamp arm. -->
+      <g stroke="#655b4a" stroke-width="1.1" fill="#dfd9cb">
+        <path d="M96 282V313Q101 316 106 313V282Z" />
+        <path d="M96 364V403Q101 406 106 403V364Z" />
+        <path d="M103 283v29m0 53v37" stroke="#b3aa97" stroke-width="2" />
+        <path d="M96 287q5 3 10 0" fill="none" />
+        <path d="M96 292q5 3 10 0" fill="none" />
+        <path d="M96 297q5 3 10 0" fill="none" />
+        <path d="M96 302q5 3 10 0" fill="none" />
+        <path d="M96 307q5 3 10 0" fill="none" />
+        <path d="M96 312q5 3 10 0" fill="none" />
+        <path d="M96 369q5 3 10 0" fill="none" />
+        <path d="M96 374q5 3 10 0" fill="none" />
+        <path d="M96 379q5 3 10 0" fill="none" />
+        <path d="M96 384q5 3 10 0" fill="none" />
+        <path d="M96 389q5 3 10 0" fill="none" />
+        <path d="M96 394q5 3 10 0" fill="none" />
+        <path d="M96 399q5 3 10 0" fill="none" />
+        <path d="M78 388l47 13" stroke-width="4" stroke-linecap="round" />
       </g>
       <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
         <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
@@ -315,11 +299,8 @@
         stroke-linejoin="round"
       >
         <!-- Upper contact shoe and lower swivel pad meet the plate surfaces. -->
-        <path d="M65 44 90 51v15l-25 -7Z" fill="#a89b84" />
-        <path d="M90 51 103 47v16l-13 3Z" fill="#8e806a" />
-        <path d="M55 64 81 57 103 63 77 70Z" />
-        <path d="M55 64v8l22 6v-8Z" fill="#a89b84" />
-        <path d="M77 70 103 63v8l-26 7Z" fill="#8e806a" />
+        <path d="M65 44 90 51v33l-25 -7Z" fill="#a89b84" />
+        <path d="M90 51 103 47v33l-13 4Z" fill="#8e806a" />
       </g>
       <!-- Instrument case uses the same projected axes as the stack. -->
       <g
