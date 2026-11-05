@@ -497,3 +497,12 @@ th {
 .overview > * {
   min-width: 0;
 }
+
+.scenario-heading {
+  margin-top: 32px;
+}
+
+.workbench-figure {
+  max-width: 850px;
+  margin: 24px auto;
+}

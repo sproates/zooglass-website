@@ -175,21 +175,145 @@
     >
   </div>
 </section>
-<section class="closing">
-  <p class="eyebrow">Alongside the system</p>
-  <h2>Workbench exercises the boundaries.</h2>
-  <p>
-    The Workbench Scenario Simulator produces controlled inputs and delivery
-    failures, runs scenarios and checks observable outcomes. It tests ZooGlass
-    through its interfaces; it does not reconcile events on ZooGlass’s behalf.
+<section class="chapter" id="workbench">
+  <h2>Workbench around the system</h2>
+  <p class="measure">
+    Workbench coordinates the sources, connections and checks around ZooGlass. A
+    scenario brings the inputs, deliberate failures and expected results
+    together in one place.
   </p>
-  <p>
-    Demo applications make those outcomes visible. Their presentation and
-    controls are separate from ZooGlass’s core behaviour.
-  </p>
-  <a href="verification.html">Explore the verification →</a
-  ><a
-    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/source-map.md"
-    >Explore the source map ↗</a
+
+  <figure class="workbench-figure">
+    <svg
+      class="drawing"
+      viewBox="-135 -20 675 370"
+      role="img"
+      aria-label="Architecture cutaway: sources, ZooGlass and applications form a vertical stack. Workbench wraps around all three layers, coordinating events, checking views and controlling client connections."
+    >
+      <!-- Workbench surrounds the stack without becoming a layer in the data path. -->
+      <g fill="none" stroke="#746348" stroke-linejoin="round">
+        <path d="M20 8H-68V302H20" stroke-width="12" />
+        <path d="M20 8H-68V302H20" stroke="#d4c7b0" stroke-width="7" />
+        <path d="M-62 67H24m-86 89H24m-86 90H24" stroke-width="1.5" />
+        <path d="m18 63 6 4-6 4m0 81 6 4-6 4m0 82 6 4-6 4" stroke-width="1.5" />
+      </g>
+      <text
+        transform="translate(-100 156) rotate(-90)"
+        text-anchor="middle"
+        fill="currentColor"
+        font-family="system-ui"
+        font-size="17"
+      >
+        Workbench
+      </text>
+      <g stroke="currentColor" opacity=".34" stroke-dasharray="3 5">
+        <path d="M32 66v184m140-228v190m145-142v184m-145-141v192" />
+      </g>
+      <g
+        transform="translate(0 205)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          Sources
+        </text>
+        <ellipse cx="102" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="164" cy="43" rx="16" ry="6" fill="none" />
+        <ellipse cx="226" cy="43" rx="16" ry="6" fill="none" />
+      </g>
+      <g
+        transform="translate(0 116)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="#c3af8a" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="#c3af8a" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          ZooGlass
+        </text>
+        <path d="m82 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m144 47 34 -10 14 4 -34 10 z" fill="none" />
+        <path d="m206 47 34 -10 14 4 -34 10 z" fill="none" />
+      </g>
+      <g
+        transform="translate(0 25)"
+        stroke="currentColor"
+        stroke-linejoin="round"
+      >
+        <path d="m32 42 140 -38 146 41 -146 40z" fill="var(--plate)" />
+        <path d="m32 42 140 43 146 -40v12l-146 41L32 55z" fill="var(--plate)" />
+        <path d="M172 85v13m131-44 33 0 19 -16h18" fill="none" />
+        <text
+          x="380"
+          y="43"
+          fill="currentColor"
+          stroke="none"
+          font-size="17"
+          font-family="system-ui"
+        >
+          Applications
+        </text>
+        <g fill="none">
+          <path d="m78 43 26 -7 24 7 -26 7 z" />
+          <path d="m83 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m140 43 26 -7 24 7 -26 7 z" />
+          <path d="m145 44.5 26 -7" />
+        </g>
+        <g fill="none">
+          <path d="m202 43 26 -7 24 7 -26 7 z" />
+          <path d="m207 44.5 26 -7" />
+        </g>
+      </g>
+    </svg>
+    <figcaption>
+      System cutaway · Workbench coordinates scenarios around the stack
+    </figcaption>
+  </figure>
+  <div class="two-column">
+    <div>
+      <h3>Real interfaces, observable results</h3>
+      <p>
+        Workbench sends events through source connections and checks the state
+        exposed by ZooGlass. Expected values are assertions about the result,
+        not a replacement for the service’s reconciliation.
+      </p>
+    </div>
+    <div>
+      <h3>Presentation stays separate</h3>
+      <p>
+        Scenarios can run with protocol clients without a browser. Demo
+        applications add a visual explanation, and browser checks can exercise
+        their behaviour without making a particular UI part of the core scenario
+        runner.
+      </p>
+    </div>
+  </div>
+  <a class="text-link" href="verification.html#workbench"
+    >Follow a Workbench scenario →</a
+  >
+  <a
+    class="text-link"
+    href="https://github.com/sproates/zooglass/blob/main/workbench/docs/source-map.md"
+    >Workbench source map ↗</a
   >
 </section>
