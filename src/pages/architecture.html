@@ -136,9 +136,8 @@
     </li>
   </ol>
   <p class="annotation">
-    The v2 publication path. A rejected whole publication installs no staged
-    target changes. An admitted receipt can include different policy outcomes
-    for different targets.
+    A rejected whole publication installs no staged target changes. An admitted
+    receipt can include different policy outcomes for different targets.
   </p>
 </section>
 <section class="chapter two-column" id="persistence">
@@ -161,17 +160,18 @@
   <div>
     <h2>Accessing the view</h2>
     <p>
-      The live-view API supplies subscriptions, snapshots and subsequent
-      updates. It powers the vehicle demo.
+      Applications read snapshots of the maintained view or subscribe to live
+      updates. ZooGlass handles the field rules; the application chooses how to
+      present the result.
     </p>
     <p>
-      The v2 API provides identified publication ingestion, configurable
-      strategies, optional persistence and HTTP snapshots. The API guide
-      describes the interfaces and their contracts.
+      Sources publish events and receive acknowledgements. Publication
+      identities let them retry safely within the configured retention window.
+      The API guide describes the interfaces and their contracts.
     </p>
     <a
       href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/v2-ingestion.md"
-      >The v2 API contract ↗</a
+      >Publication API guide ↗</a
     >
   </div>
 </section>
