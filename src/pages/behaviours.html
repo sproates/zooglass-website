@@ -62,6 +62,22 @@
       </div>
     </article>
     <article>
+      <h3>Reports are missing</h3>
+      <div>
+        <p>
+          When a source declares contiguous sequences for each entity, a jump
+          exposes a provisional gap. A watermark confirms which reports are
+          still missing through that point. ZooGlass keeps this status alongside
+          the accepted values.
+        </p>
+        <p>
+          Each field can accept late reports or reject reports behind the
+          watermark. A late arrival can fill a gap without replacing a newer
+          value; ZooGlass also records when it breaks the source’s watermark promise.
+        </p>
+      </div>
+    </article>
+    <article>
       <h3>A source goes quiet</h3>
       <div>
         <p>
@@ -90,6 +106,15 @@
       <p>
         A revision received before its create is rejected as
         <code>unknownFact</code>. The source can retry after the create arrives.
+      </p>
+    </article>
+    <article>
+      <h3>Totals that follow corrections</h3>
+      <p>
+        Use <code>sumActiveFacts</code> to total a numeric field across retained
+        active facts. A correction changes the contribution; a withdrawal
+        removes it. The total follows the configured revision policy, so the
+        application does not need its own correction arithmetic.
       </p>
     </article>
     <article>
