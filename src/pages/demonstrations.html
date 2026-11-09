@@ -37,6 +37,11 @@
     dashed style when its own connection is interrupted. When a fresh report
     arrives, the marker can move again.
   </p>
+  <p class="annotation">
+    The vehicle display calculates report age from the source’s observation
+    timestamp. This is a demo rule, distinct from ZooGlass’s configurable
+    receipt-age policy, which measures time since an accepted contribution.
+  </p>
   <a
     href="https://github.com/sproates/zooglass/blob/main/workbench/docs/continuous-driving.md"
     >Run the demo locally ↗</a
@@ -48,10 +53,11 @@
 </p>
 <section class="chapter" id="corrections">
   <p class="eyebrow">Corrections and withdrawals</p>
-  <h2>A fact can change.<br />The view follows its rule.</h2>
+  <h2>Correcting a goal and its score</h2>
   <p class="measure">
     A match feed reports a goal, corrects the scorer and later withdraws the
-    goal. Two fields consume that same feed with different revision strategies.
+    goal. Two views consume that same feed with different revision strategies.
+    Each exposes the retained goals and a total of their points.
   </p>
   <div class="two-column example-config">
     <div>
@@ -84,10 +90,16 @@
       </p>
     </div>
   </div>
+  <p class="measure">
+    Add a <code>sumActiveFacts</code> field for the same source and event type,
+    using <code>property: "points"</code> and the same fact revision settings.
+    ZooGlass maintains the goal collection and score together. The payloads
+    below credit one point, then correct that contribution to two points.
+  </p>
   <div class="table-scroll">
     <table>
       <caption>
-        Expected active collection after each publication
+        Expected collection and score after each publication
       </caption>
       <thead>
         <tr>
@@ -98,19 +110,19 @@
       </thead>
       <tbody>
         <tr>
-          <td>Create · birth 40, revision 1<br />Scorer: Player A</td>
-          <td>Player A</td>
-          <td>Player A</td>
+          <td>Create · birth 40, revision 1<br />Scorer: Player A, points: 1</td>
+          <td>Player A · score 1</td>
+          <td>Player A · score 1</td>
         </tr>
         <tr>
-          <td>Revise · birth 40, revision 2<br />Scorer: Player B</td>
-          <td>Player B</td>
-          <td>Player A</td>
+          <td>Revise · birth 40, revision 2<br />Scorer: Player B, points: 2</td>
+          <td>Player B · score 2</td>
+          <td>Player A · score 1</td>
         </tr>
         <tr>
           <td>Retract · birth 40, revision 3</td>
-          <td>Empty collection</td>
-          <td>Player A</td>
+          <td>Empty collection · score 0</td>
+          <td>Player A · score 1</td>
         </tr>
         <tr>
           <td>Retry that same retraction</td>
@@ -126,7 +138,7 @@
     immutable. The latest-revision field follows them. If the source retries
     the same retraction within the retention window, ZooGlass acknowledges it as
     a duplicate with the original version and both views’ recorded outcomes.
-    The collections stay as shown in the table.
+    The collections and scores stay as shown in the table.
   </p>
   <a
     class="text-link"
@@ -137,8 +149,8 @@
 <section class="closing">
   <h2>What this removes from the application</h2>
   <p>
-    The application reads a retained collection. It does not have to maintain a
-    revision index, remove withdrawn facts, suppress repeated publications or
+    The application reads the retained collection and calculated score. It does not have to maintain a
+    revision index, remove withdrawn facts, adjust the total, suppress repeated publications or
     rebuild those decisions after a durable restart.
   </p>
   <a href="verification.html">See the tests behind these behaviours →</a>

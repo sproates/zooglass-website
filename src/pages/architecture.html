@@ -175,6 +175,38 @@
     >
   </div>
 </section>
+<section class="chapter two-column">
+  <div>
+    <h2>Returning and slow viewers</h2>
+    <p>
+      A successful subscription starts with a full snapshot, including after
+      reconnect. The application replaces its displayed state with that baseline;
+      it does not need to replay every update it missed.
+    </p>
+    <p>
+      Each connection has a bounded queue. Choose ordered delivery with
+      disconnection on overflow, or replace eligible waiting updates with the
+      latest state. One slow viewer does not hold up the others.
+    </p>
+    <a href="https://github.com/sproates/zooglass/blob/main/docs/design/client-delivery.md"
+      >Client delivery contract ↗</a>
+  </div>
+  <div>
+    <h2>Access controlled by your application</h2>
+    <p>
+      Your application decides who may read each view and entity. In protected
+      mode, ZooGlass checks those decisions for snapshot reads and subscriptions,
+      renews active grants and stops further delivery when access is lost.
+    </p>
+    <p>
+      Reconnecting requires a fresh decision. Protected deployments use HTTPS/WSS
+      for viewers and a separate authenticated operator connection. The client
+      remains responsible for clearing protected data when access is lost.
+    </p>
+    <a href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/protected-deployment.md"
+      >Protected deployment guide ↗</a>
+  </div>
+</section>
 <section class="chapter" id="workbench">
   <h2>Workbench around the system</h2>
   <p class="measure">

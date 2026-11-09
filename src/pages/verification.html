@@ -89,7 +89,7 @@
         the durable view and receipt.
       </p>
       <a
-        href="https://github.com/sproates/zooglass/blob/cdcc9e39eaccb25a38e8cd10032ae33935b4dc87/zooglass/src/test/java/io/zooglass/runtime/SqliteCrashRecoveryTests.java"
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/SqliteCrashRecoveryTests.java"
         >Database crash recovery tests ↗</a
       >
     </article>
@@ -101,21 +101,20 @@
         agree.
       </p>
       <a
-        href="https://github.com/sproates/zooglass/blob/cdcc9e39eaccb25a38e8cd10032ae33935b4dc87/zooglass/src/test/java/io/zooglass/runtime/FactCrashTests.java"
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/FactCrashTests.java"
         >Fact crash tests ↗</a
       >
     </article>
     <article>
-      <h3>Does the real interface honour the rule?</h3>
+      <h3>Do the policies still agree after a crash?</h3>
       <p>
-        Publish facts and retirement controls through WebSockets, then inspect
-        HTTP snapshots. Exercise corrections, withdrawals and rejection outcomes
-        at the service boundary.
+        Feed two scoreboards with different revision policies. Confirm missing
+        reports, withdraw a goal, then crash after commit but before the receipt.
+        After restart, check the scores and gaps together. A delayed older revision
+        fills one gap without restoring the withdrawn goal.
       </p>
-      <a
-        href="https://github.com/sproates/zooglass/blob/cdcc9e39eaccb25a38e8cd10032ae33935b4dc87/zooglass/src/test/java/io/zooglass/runtime/FactServiceTests.java"
-        >Fact service tests ↗</a
-      >
+      <a href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/MatchCorrectionAcceptanceTests.java"
+        >Combined match acceptance ↗</a>
     </article>
     <article>
       <h3>Is ageing still meaningful after recovery?</h3>
@@ -124,7 +123,7 @@
         distinction between a recovered value and a newly received contribution.
       </p>
       <a
-        href="https://github.com/sproates/zooglass/blob/cdcc9e39eaccb25a38e8cd10032ae33935b4dc87/zooglass/src/test/java/io/zooglass/runtime/ReceiptAgeRecoveryTests.java"
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/ReceiptAgeRecoveryTests.java"
         >Freshness recovery tests ↗</a
       >
     </article>
@@ -136,7 +135,7 @@
         view.
       </p>
       <a
-        href="https://github.com/sproates/zooglass/blob/cdcc9e39eaccb25a38e8cd10032ae33935b4dc87/zooglass/src/test/java/io/zooglass/runtime/SqliteRecoveryTests.java"
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/SqliteRecoveryTests.java"
         >Storage recovery tests ↗</a
       >
     </article>
@@ -148,13 +147,34 @@
         behaviour.
       </p>
       <a
-        href="https://github.com/sproates/zooglass/blob/cdcc9e39eaccb25a38e8cd10032ae33935b4dc87/zooglass/src/test/java/io/zooglass/runtime/FactCompositionTests.java"
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/FactCompositionTests.java"
         >Fact composition tests ↗</a
       >
     </article>
+    <article>
+      <h3>What does a returning viewer receive?</h3>
+      <p>
+        Disconnect a viewer, change the service state and reconnect it. Verify
+        the fresh baseline before sending more events, including after a service
+        restart with memory or database storage.
+      </p>
+      <a href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/ClientRecoveryAcceptanceTests.java"
+        >Client recovery acceptance ↗</a>
+    </article>
+    <article>
+      <h3>Does revoked access stay revoked?</h3>
+      <p>
+        Withdraw one viewer’s permission while another keeps receiving updates.
+        Check denial, expiry, queued delivery and fresh decisions after reconnect
+        or restart. Transport checks measure the release boundary; browser checks
+        verify that protected content clears.
+      </p>
+      <a href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/docs/verification/authorisation.md"
+        >Authorisation evidence ↗</a>
+    </article>
   </div>
   <p class="annotation">
-    Evidence links are pinned to main revision cdcc9e3. Crash checks use the
+    Evidence links are pinned to main revision 4ec47e7. Crash checks use the
     real database driver and process termination; they do not simulate hardware
     power loss.
   </p>
@@ -166,6 +186,8 @@
     them. Start with the testing guide for the distinction between core
     contracts, integration checks and demo-specific browser checks.
   </p>
+  <a href="https://github.com/sproates/zooglass/blob/main/docs/verification/capability-delivery.md"
+    >Capability delivery record ↗</a>
   <a href="https://github.com/sproates/zooglass/blob/main/docs/testing.md"
     >Testing guide ↗</a
   ><a href="https://github.com/sproates/zooglass/blob/main/workbench/README.md"
