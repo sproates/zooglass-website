@@ -13,15 +13,19 @@ PAGES = {
     "architecture.html": "Architecture",
     "demonstrations.html": "Demonstrations",
     "verification.html": "Verification",
+    "demonstrations-orders.html": "Orders",
+    "demonstrations-sports.html": "Sports",
 }
 
 
 DESCRIPTIONS = {
+    "demonstrations-orders.html": "Watch independent order, payment, stock and courier reports become configured ZooGlass views.",
+    "demonstrations-sports.html": "Watch goal corrections and withdrawals produce different Sports views from one match feed.",
     "behaviours.html": "Configure how ZooGlass handles late events, gaps, retries, source priority, freshness, corrections and totals.",
     "verification.html": "Explore ZooGlass verification: combined reconciliation, crash recovery, returning clients and access revocation, with reproducible evidence.",
     "index.html": "ZooGlass maintains live views from independent event sources. Configure how each field handles late and duplicate events, and subscribe to the resulting view.",
     "architecture.html": "See where ZooGlass fits between event sources and applications, how events contribute to fields, and how subscribers receive snapshots and updates.",
-    "demonstrations.html": "Watch six simulated cars report their positions through ZooGlass. See what happens to the map when a car stops reporting and reconnects.",
+    "demonstrations.html": "Explore Fleet, Orders and Sports screen recordings: late reports, independent sources and corrected facts through ZooGlass.",
 }
 
 
@@ -48,12 +52,21 @@ def build(output, base):
         "poster": asset(media / "continuous-driving-desktop.webp", output),
         "footer": (SRC / "footer.html").read_text(),
     }
+    for demo in ("orders", "sports"):
+        common[demo + "_video"] = asset(media / (demo + ".mp4"), output)
+        common[demo + "_poster"] = asset(media / (demo + ".webp"), output)
+    common["demo_video_script"] = asset(SRC / "demo-video.js", output)
+    for demo in ("fleet", "orders", "sports"):
+        common[demo + "_phone_video"] = asset(media / (demo + "-mobile.mp4"), output)
+        common[demo + "_phone_poster"] = asset(media / (demo + "-mobile.webp"), output)
     layout = (SRC / "layout.html").read_text()
     sitemap = XML.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
     for filename, name in PAGES.items():
         links = []
         for target, label in PAGES.items():
-            current = ' aria-current="page"' if target == filename else ""
+            if target in ("demonstrations-orders.html", "demonstrations-sports.html"):
+                continue
+            current = ' aria-current="page"' if target == filename or (target == "demonstrations.html" and filename.startswith("demonstrations-")) else ""
             href = "./" if target == "index.html" else target
             links.append(f'<a href="{href}"{current}>{label}</a>')
         canonical = base if filename == "index.html" else base + filename

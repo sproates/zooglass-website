@@ -1,11 +1,19 @@
-<p class="eyebrow">Make the behaviour visible</p>
+<p class="eyebrow">Three applications, one runtime</p>
 <h1>Demonstrations</h1>
 <p class="page-intro">
-  Watch imperfect delivery in the vehicle recording, then follow a fact as it is
-  corrected and withdrawn.
+  Explore Fleet, Orders and Sports. Each application consumes live ZooGlass
+  views while simulated sources introduce delays, retries, gaps or corrections.
 </p>
+<nav class="demo-navigation" aria-label="Demonstrations">
+  <a href="demonstrations.html" aria-current="page">Fleet</a
+  ><a href="demonstrations-orders.html">Orders</a
+  ><a href="demonstrations-sports.html">Sports</a>
+</nav>
+<h2>Fleet · Keep the latest position</h2>
 <figure>
   <video
+    data-phone-src="{{fleet_phone_video}}"
+    data-phone-poster="{{fleet_phone_poster}}"
     controls
     playsinline
     preload="none"
@@ -48,110 +56,8 @@
   >
 </div>
 <p class="annotation">
-  The recording and worked example illustrate ZooGlass behaviour; this website
-  does not connect to a running ZooGlass instance.
+  This is a screen recording of the running demo, not a live service connection.
+  The recording has no audio; the guide above describes what to watch.
 </p>
-<section class="chapter" id="corrections">
-  <p class="eyebrow">Corrections and withdrawals</p>
-  <h2>Correcting a goal and its score</h2>
-  <p class="measure">
-    A match feed reports a goal, corrects the scorer and later withdraws the
-    goal. Two views consume that same feed with different revision strategies.
-    Each exposes the retained goals and a total of their points.
-  </p>
-  <div class="two-column example-config">
-    <div>
-      <h3>Follow the corrections</h3>
-      <pre><code>"goals": {
-  "sourceId": "match-feed",
-  "type": "goal",
-  "mode": "activeFacts",
-  "facts": {
-    "revision": "latestFactRevision",
-    "maxRetainedFacts": 200,
-    "minimumBirthSequence": 1
-  }
-}</code></pre>
-    </div>
-    <div>
-      <h3>Keep the original</h3>
-      <p>
-        Use the same field definition in another view, changing the revision
-        strategy to:
-      </p>
-      <pre><code>"revision": "firstFact"</code></pre>
-      <p>
-        The source does not need to publish a second version of its feed. Each
-        field applies its own strategy.
-      </p>
-      <p class="annotation">
-        These are field definitions inside a view configuration. The linked
-        guide supplies the envelope format and operating instructions.
-      </p>
-    </div>
-  </div>
-  <p class="measure">
-    Add a <code>sumActiveFacts</code> field for the same source and event type,
-    using <code>property: "points"</code> and the same fact revision settings.
-    ZooGlass maintains the goal collection and score together. The payloads
-    below credit one point, then correct that contribution to two points.
-  </p>
-  <div class="table-scroll">
-    <table>
-      <caption>
-        Expected collection and score after each publication
-      </caption>
-      <thead>
-        <tr>
-          <th>Source publication</th>
-          <th>latestFactRevision</th>
-          <th>firstFact</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Create · birth 40, revision 1<br />Scorer: Player A, points: 1</td>
-          <td>Player A · score 1</td>
-          <td>Player A · score 1</td>
-        </tr>
-        <tr>
-          <td>Revise · birth 40, revision 2<br />Scorer: Player B, points: 2</td>
-          <td>Player B · score 2</td>
-          <td>Player A · score 1</td>
-        </tr>
-        <tr>
-          <td>Retract · birth 40, revision 3</td>
-          <td>Empty collection · score 0</td>
-          <td>Player A · score 1</td>
-        </tr>
-        <tr>
-          <td>Retry that same retraction</td>
-          <td>Unchanged</td>
-          <td>Unchanged</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="measure">
-    The correction and retraction have new publication sequences but refer to
-    the same fact birth. The first-fact field rejects those alterations as
-    immutable. The latest-revision field follows them. If the source retries
-    the same retraction within the retention window, ZooGlass acknowledges it as
-    a duplicate with the original version and both views’ recorded outcomes.
-    The collections and scores stay as shown in the table.
-  </p>
-  <a
-    class="text-link"
-    href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/fact-collections.md"
-    >Run this through the fact collections guide ↗</a
-  >
-</section>
-<section class="closing">
-  <h2>What this removes from the application</h2>
-  <p>
-    The application reads the retained collection and calculated score. It does not have to maintain a
-    revision index, remove withdrawn facts, adjust the total, suppress repeated publications or
-    rebuild those decisions after a durable restart.
-  </p>
-  <a href="verification.html">See the tests behind these behaviours →</a>
-</section>
+
+<script src="{{demo_video_script}}" defer></script>
