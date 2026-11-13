@@ -55,6 +55,10 @@ def build(output, base):
     for demo in ("orders", "sports"):
         common[demo + "_video"] = asset(media / (demo + ".mp4"), output)
         common[demo + "_poster"] = asset(media / (demo + ".webp"), output)
+    common["demo_video_script"] = asset(SRC / "demo-video.js", output)
+    for demo in ("fleet", "orders", "sports"):
+        common[demo + "_phone_video"] = asset(media / (demo + "-mobile.mp4"), output)
+        common[demo + "_phone_poster"] = asset(media / (demo + "-mobile.webp"), output)
     layout = (SRC / "layout.html").read_text()
     sitemap = XML.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
     for filename, name in PAGES.items():
