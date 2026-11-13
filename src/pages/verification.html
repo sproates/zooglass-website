@@ -24,9 +24,17 @@
   <h2>Repeatable scenarios with Workbench</h2>
   <p class="measure">
     A delivery problem is much easier to investigate when you can reproduce it.
-    Workbench is a deterministic timeline simulator: a scenario fixes the
-    scheduled actions and their order, including what sources send, when
-    connections change and what the resulting views should contain.
+    Workbench runs scripted scenarios: a scenario specifies the scheduled actions
+    and their order, including what sources send, when connections change and
+    what the resulting views should contain.
+  </p>
+  <p class="measure">
+    These runs check observed results against real ZooGlass processes and network
+    connections; their timing is not deterministic. A controlled-time simulator
+    is separate development work, with an initial proof limited to two fixed
+    memory-backed scenarios. See the
+    <a href="https://github.com/sproates/zooglass/blob/main/docs/design/deterministic-timeline.md">execution design</a>
+    for that boundary and the planned capabilities.
   </p>
   <div class="three-column">
     <article>
