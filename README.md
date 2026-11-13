@@ -21,8 +21,8 @@ the corrected result and then opens the first-reported comparison; Fleet shows
 the map and selected car at phone width. These are real responsive layouts, not
 cropped or scaled desktop recordings.
 
-Their guides currently link to the shared delivery branch because combined main
-delivery is pending; update those links and availability notes after that merge.
+Demo guides and acceptance records link to the core repository’s main branch.
+Publish this handoff only after the combined Order/Sports delivery reaches main.
 
 For a LAN preview, supply its URL with `--base` and its serving directory with
 `--output`. Serve generated files using `panack-http-server --no-cache --noindex`.
