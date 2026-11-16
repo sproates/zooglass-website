@@ -22,7 +22,10 @@ the map and selected car at phone width. These are real responsive layouts, not
 cropped or scaled desktop recordings.
 
 Demo guides and acceptance records link to the core repository’s main branch.
-Publish this handoff only after the combined Order/Sports delivery reaches main.
+The site describes delivered runtime capabilities, deterministic timeline
+simulation and offline configuration authoring. Keep these claims aligned with
+the current capability matrix and qualification records when core features ship.
+Live demo recordings illustrate real-service runs, not deterministic playback.
 
 For a LAN preview, supply its URL with `--base` and its serving directory with
 `--output`. Serve generated files using `panack-http-server --no-cache --noindex`.

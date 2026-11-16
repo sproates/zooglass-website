@@ -94,14 +94,23 @@
     a client reconnects, and enforces your application’s access decisions.
   </p>
 </section>
-<section class="closing">
+<section class="closing" id="workbench">
   <h2>Workbench Scenario Simulator</h2>
   <p>
-    Workbench runs scripted scenarios. Define events, deliberate delivery failures
-    and expected views in a repeatable scenario. Workbench
-    runs it against ZooGlass and checks the results, so you can explore a
-    configuration, demonstrate its behaviour and catch regressions.
+    Workbench is a <strong><em>deterministic timeline simulator</em></strong>. It controls time and
+    event ordering so the same scenario produces the same results in the same
+    runtime environment.
   </p>
-  <a href="verification.html#workbench">How Workbench verifies a scenario →</a>
+  <p>
+    Unlike a simulator whose results depend on unpredictable timing, it lets you
+    reproduce failures reliably and check whether a change fixes them.
+  </p>
+  <p>
+    Workbench runs ZooGlass’s real runtime. Exercise late reports, retries,
+    freshness changes and supported restarts, then check the resulting views.
+    Save a run and replay it to verify the trace by executing it again.
+  </p>
+  <a href="verification.html#workbench">How the simulator verifies ZooGlass →</a>
+  <a href="verification-timeline.html#supported-scenarios">Supported scenarios and guarantees →</a>
   <a href="demonstrations.html">Explore Fleet, Orders and Sports →</a>
 </section>

@@ -1,0 +1,147 @@
+<p class="eyebrow">Verification · Controlled time and repeatable results</p>
+<h1>Deterministic timeline simulator</h1>
+<p class="page-intro">Reproduce difficult sequences, check ZooGlass’s real runtime and replay the evidence.</p>
+<nav class="demo-navigation" aria-label="Verification">
+  <a href="verification.html">Overview</a>
+  <a href="verification-timeline.html" aria-current="page">Timeline simulator</a>
+  <a href="verification-evidence.html">Runtime evidence</a>
+</nav>
+<section class="chapter" id="workbench">
+  <h2>Workbench: deterministic timeline simulation</h2>
+  <p class="measure">
+    Workbench is a deterministic timeline simulator that runs ZooGlass’s actual
+    reconciliation code. It controls virtual time and the order of execution,
+    letting you reproduce supported event sequences and check exactly how the
+    runtime responds. Your expected results are assertions; ZooGlass still makes
+    the decisions.
+  </p>
+  <div class="three-column">
+    <article>
+      <h3>Control the difficult sequence</h3>
+      <p>
+        Specify the events, supported faults and expected views. Advance virtual
+        time to exercise freshness deadlines, lost receipts and retries, or a
+        restart where the selected profile supports it.
+      </p>
+    </article>
+    <article>
+      <h3>Check the real runtime</h3>
+      <p>
+        Execute production strategy code under controlled scheduling. Compare
+        observed results with explicit expectations, and retain the ordered trace
+        of what happened.
+      </p>
+    </article>
+    <article>
+      <h3>Replay the evidence</h3>
+      <p>
+        Keep the inputs, run and trace in a portable bundle. Replay executes the
+        scenario again and compares newly emitted records with the saved trace.
+        It detects divergence instead of playing back stored answers.
+      </p>
+    </article>
+  </div>
+  <h3 class="scenario-heading">What this means for ZooGlass</h3>
+  <p class="measure">
+    A hard-to-reproduce sequence can become a repeatable regression check. You
+    can verify how source priority, corrections, freshness or retained receipt
+    identity behave in supported scenarios, and keep the evidence with the
+    configuration and runtime that produced it. Configuration and code changes
+    can then be checked against explicit expectations rather than judged from
+    a demonstration alone.
+  </p>
+</section>
+<section class="chapter" id="supported-scenarios">
+  <h2>Supported scenarios and guarantees</h2>
+  <p class="measure">
+    Choose a supported scenario family to explore the behaviour that matters to
+    your application. Each family defines the strategies, storage, events and
+    faults it can exercise. Workbench checks those limits before execution.
+  </p>
+  <div class="evidence-list">
+    <article>
+      <h3>Fleet: ordering and history</h3>
+      <p>
+        Check reports from multiple sources, select the latest value by sequence
+        and retain bounded history. This family uses memory storage and does
+        not include restarts.
+      </p>
+    </article>
+    <article>
+      <h3>Orders: combine independent reports</h3>
+      <p>
+        Exercise entity mapping, source priority, required contributions and
+        progress watermarks with SQLite storage. The Order recovery family also
+        checks retained receipt identity and progress through an explicit restart.
+      </p>
+    </article>
+    <article>
+      <h3>Sports: corrections and retirement</h3>
+      <p>
+        Check first- and latest-revision policies, counts, sums and progress,
+        including atomic retirement within a view. This family uses SQLite
+        storage and does not include restarts.
+      </p>
+    </article>
+    <article>
+      <h3>Freshness and recovery</h3>
+      <p>
+        Check receipt-age behaviour across controlled stops and starts. Memory
+        restarts start empty; SQLite restores durable state. These bounded
+        arrival-based scenarios also support explicit wall-clock adjustments.
+      </p>
+    </article>
+    <article>
+      <h3>Receipts and retries</h3>
+      <p>
+        Exercise fixed link delays, lost receipts and exact retries in the
+        supported arrival-based memory profile. Check that a retry produces the
+        expected receipt and view, without depending on real network timing.
+      </p>
+    </article>
+    <article>
+      <h3>Configure your own static views</h3>
+      <p>
+        Combine arrival, latest-by-sequence and history fields with aliases in
+        bounded memory configurations. Supported ordinary scenarios can be
+        explicitly converted. This family uses zero-latency links and excludes
+        faults, retries and restarts.
+      </p>
+    </article>
+  </div>
+  <h3 class="scenario-heading">What repeats, and under which conditions?</h3>
+  <p class="measure">
+    With the same scenario, configuration, seed, runtime files and recorded
+    environment, the supported runtime results repeat. Replay executes the scenario
+    again and checks its newly produced trace against the saved evidence.
+    A changed runtime or environment needs a new run; replay is not a promise
+    that different versions will produce identical results.
+  </p>
+  <p class="measure">
+    These are specific, tested combinations. Support in one family does not mean
+    every feature can be combined with every other feature. Unsupported
+    configurations are rejected before execution. Variable network delays,
+    partitions and arbitrary crashes in the middle of a commit are outside the
+    current timeline model.
+  </p>
+  <h3 class="scenario-heading">Evidence that the controls work</h3>
+  <p class="measure">
+    Selected qualification runs deliberately pause host execution and require
+    the recorded sequence of runtime results to remain unchanged. Deliberately incorrect strategy
+    implementations must fail the scenario’s expected results. Selected cases
+    also compare timeline outcomes with an ordinary ZooGlass service run.
+    These checks test both the runtime’s behaviour and the simulator’s ability
+    to detect a wrong result.
+  </p>
+  <p class="annotation">
+    Retained qualification covers the current families on macOS arm64. Linux
+    arm64 evidence covers the original document campaign, not the later families.
+    Evidence records its exact environment; bundles do not include executable
+    dependencies. Full profile limits and reproduction instructions are in the
+    technical guide.
+  </p>
+  <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-guide.md">Technical guide and profile limits ↗</a>
+  <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-acceptance.md">Timeline qualification evidence ↗</a>
+  <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-static-qualification.md">Broader configuration evidence ↗</a>
+</section>
+<section class="closing"><h2>Alongside real-service checks</h2><p>Controlled timelines complement tests of real connections, process crashes and recovery.</p><a href="verification-evidence.html">Explore runtime evidence →</a></section>

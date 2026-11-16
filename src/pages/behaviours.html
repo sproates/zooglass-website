@@ -131,6 +131,26 @@
     </article>
   </div>
 </section>
+<section class="chapter" id="configuration">
+  <h2>Understand the configuration before you run it.</h2>
+  <p class="measure">
+    Use <code>config check</code> to validate settings with the production parser
+    and <code>config explain</code> to see effective policies and applied defaults.
+    Both commands work offline, without starting the service or opening a database.
+  </p>
+  <p class="measure">
+    Optional local field templates let you maintain shared settings once while
+    keeping each field’s update mode explicit. <code>config expand</code> validates
+    the result and writes ordinary runtime JSON to a new file, ready to review
+    and pass to ZooGlass. Existing runtime JSON remains directly usable.
+  </p>
+  <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/configuration-authoring.md">Check, expand and adopt a configuration ↗</a>
+  <p class="annotation">
+    A valid configuration does not establish deployment safety, compatibility
+    with an existing SQLite store or admission to the deterministic timeline.
+    Those checks retain their own contracts.
+  </p>
+</section>
 <section class="closing">
   <h2>Configuration selects real strategy code.</h2>
   <p>
@@ -141,5 +161,5 @@
   <a
     href="https://github.com/sproates/zooglass/blob/main/zooglass/docs/configuration.md"
     >Read the configuration guide ↗</a
-  ><a href="demonstrations.html#corrections">Walk through a corrected fact →</a>
+  ><a href="demonstrations-sports.html#corrections">Walk through a corrected fact →</a>
 </section>
