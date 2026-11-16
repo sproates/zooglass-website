@@ -1,0 +1,143 @@
+<p class="eyebrow">Verification · Real services and failure boundaries</p>
+<h1>Runtime evidence</h1>
+<p class="page-intro">Check the state applications receive through real connections, process failures and recovery.</p>
+<nav class="demo-navigation" aria-label="Verification">
+  <a href="verification.html">Overview</a>
+  <a href="verification-timeline.html">Timeline simulator</a>
+  <a href="verification-evidence.html" aria-current="page">Runtime evidence</a>
+</nav>
+<section class="chapter">
+  <h2>Real connections remain part of verification</h2>
+  <p class="measure">
+    Workbench also runs live scenarios against real ZooGlass processes and
+    network connections. Those runs exercise actual reconnects and observable
+    service behaviour; their wall-clock timing is not deterministic. Browser,
+    native-concurrency and process crash tests provide evidence beyond the
+    controlled timeline. The three demo recordings show live application runs.
+  </p>
+  <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/README.md#run-a-scenario">Run a real-service scenario ↗</a>
+</section>
+<section class="chapter">
+  <h2>What the checks ask</h2>
+  <div class="evidence-list">
+    <article>
+      <h3>Did a lost acknowledgement repeat the effect?</h3>
+      <p>
+        Stop the service before commit, after commit but before acknowledgement,
+        and after acknowledgement. Restart it, retry the publication and check
+        the durable view and receipt.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/SqliteCrashRecoveryTests.java"
+        >Database crash recovery tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Did a withdrawn fact come back?</h3>
+      <p>
+        Crash around fact retraction and retirement commits. Check that
+        recovered projections, tombstones, retirement floors and retry outcomes
+        agree.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/FactCrashTests.java"
+        >Fact crash tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Do the policies still agree after a crash?</h3>
+      <p>
+        Feed two scoreboards with different revision policies. Confirm missing
+        reports, withdraw a goal, then crash after commit but before the
+        receipt. After restart, check the scores and gaps together. A delayed
+        older revision fills one gap without restoring the withdrawn goal.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/MatchCorrectionAcceptanceTests.java"
+        >Combined match acceptance ↗</a
+      >
+    </article>
+    <article>
+      <h3>Is ageing still meaningful after recovery?</h3>
+      <p>
+        Check receipt-age state through restart and clock changes, including the
+        distinction between a recovered value and a newly received contribution.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/ReceiptAgeRecoveryTests.java"
+        >Freshness recovery tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Can invalid state become a ready service?</h3>
+      <p>
+        Recovery tests check persisted state and configuration compatibility.
+        Invalid recovery must fail rather than expose a partially recovered
+        view.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/SqliteRecoveryTests.java"
+        >Storage recovery tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>Do different views retain different facts?</h3>
+      <p>
+        Exercise independent revision policies, bounded collections and explicit
+        retirement. Check the results together with publication and freshness
+        behaviour.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/FactCompositionTests.java"
+        >Fact composition tests ↗</a
+      >
+    </article>
+    <article>
+      <h3>What does a returning viewer receive?</h3>
+      <p>
+        Disconnect a viewer, change the service state and reconnect it. Verify
+        the fresh baseline before sending more events, including after a service
+        restart with memory or database storage.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/zooglass/src/test/java/io/zooglass/runtime/ClientRecoveryAcceptanceTests.java"
+        >Client recovery acceptance ↗</a
+      >
+    </article>
+    <article>
+      <h3>Does revoked access stay revoked?</h3>
+      <p>
+        Withdraw one viewer’s permission while another keeps receiving updates.
+        Check denial, expiry, queued delivery and fresh decisions after
+        reconnect or restart. Transport checks measure the release boundary;
+        browser checks verify that protected content clears.
+      </p>
+      <a
+        href="https://github.com/sproates/zooglass/blob/4ec47e7fb7b15e0599ab1cbcb9a5c7080f69c659/docs/verification/authorisation.md"
+        >Authorisation evidence ↗</a
+      >
+    </article>
+  </div>
+  <p class="annotation">
+    Evidence links are pinned to main revision 4ec47e7. Crash checks use the
+    real database driver and process termination; they do not simulate hardware
+    power loss.
+  </p>
+</section>
+<section class="closing">
+  <h2>Run the checks</h2>
+  <p>
+    The source includes the tests, their fixtures and instructions for running
+    them. Start with the testing guide for the distinction between core
+    contracts, integration checks and demo-specific browser checks.
+  </p>
+  <a
+    href="https://github.com/sproates/zooglass/blob/main/docs/verification/capability-delivery.md"
+    >Capability delivery record ↗</a
+  >
+  <a href="https://github.com/sproates/zooglass/blob/main/docs/testing.md"
+    >Testing guide ↗</a
+  ><a href="https://github.com/sproates/zooglass/blob/main/workbench/README.md"
+    >Workbench Scenario Simulator ↗</a
+  >
+</section>

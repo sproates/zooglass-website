@@ -13,17 +13,21 @@ PAGES = {
     "architecture.html": "Architecture",
     "demonstrations.html": "Demonstrations",
     "verification.html": "Verification",
+    "verification-timeline.html": "Deterministic timeline simulator",
+    "verification-evidence.html": "Runtime evidence",
     "demonstrations-orders.html": "Orders",
     "demonstrations-sports.html": "Sports",
 }
 
 
 DESCRIPTIONS = {
+    "verification-timeline.html": "Understand Workbench deterministic timeline simulation, supported scenarios, repeatability guarantees and qualification evidence.",
+    "verification-evidence.html": "Explore ZooGlass service, recovery, process crash and access-control evidence.",
     "demonstrations-orders.html": "Watch independent order, payment, stock and courier reports become configured ZooGlass views.",
     "demonstrations-sports.html": "Watch goal corrections and withdrawals produce different Sports views from one match feed.",
-    "behaviours.html": "Configure how ZooGlass handles late events, gaps, retries, source priority, freshness, corrections and totals.",
-    "verification.html": "Explore ZooGlass verification: combined reconciliation, crash recovery, returning clients and access revocation, with reproducible evidence.",
-    "index.html": "ZooGlass maintains live views from independent event sources. Configure how each field handles late and duplicate events, and subscribe to the resulting view.",
+    "behaviours.html": "Configure late events, retries, source priority, freshness and corrected totals. Check and explain settings offline, and reuse explicit local templates.",
+    "verification.html": "Workbench is a deterministic timeline simulator for ZooGlass. Control virtual time, test the real runtime and replay evidence alongside real-service and crash checks.",
+    "index.html": "Maintain live views from independent events with ZooGlass. Verify runtime behaviour with Workbench, its deterministic timeline simulator.",
     "architecture.html": "See where ZooGlass fits between event sources and applications, how events contribute to fields, and how subscribers receive snapshots and updates.",
     "demonstrations.html": "Explore Fleet, Orders and Sports screen recordings: late reports, independent sources and corrected facts through ZooGlass.",
 }
@@ -64,9 +68,9 @@ def build(output, base):
     for filename, name in PAGES.items():
         links = []
         for target, label in PAGES.items():
-            if target in ("demonstrations-orders.html", "demonstrations-sports.html"):
+            if target.startswith(("demonstrations-", "verification-")):
                 continue
-            current = ' aria-current="page"' if target == filename or (target == "demonstrations.html" and filename.startswith("demonstrations-")) else ""
+            current = ' aria-current="page"' if target == filename or (target == "demonstrations.html" and filename.startswith("demonstrations-")) or (target == "verification.html" and filename.startswith("verification-")) else ""
             href = "./" if target == "index.html" else target
             links.append(f'<a href="{href}"{current}>{label}</a>')
         canonical = base if filename == "index.html" else base + filename

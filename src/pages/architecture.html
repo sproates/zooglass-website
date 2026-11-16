@@ -210,9 +210,10 @@
 <section class="chapter" id="workbench">
   <h2>Workbench around the system</h2>
   <p class="measure">
-    Workbench is a scenario runner that coordinates sources,
-    connections and checks around ZooGlass. A scenario brings the inputs,
-    deliberate failures and expected results together in one place.
+    Workbench is a deterministic timeline simulator and a real-service scenario
+    runner. It brings inputs, supported failures and expected results together,
+    so you can verify the runtime under controlled time as well as through live
+    connections.
   </p>
 
   <figure class="workbench-figure">
@@ -436,8 +437,8 @@
       </g>
     </svg>
     <figcaption>
-      Workbench drives source events, controls client connections and checks
-      view results. The crocodile clips illustrate its integration points.
+      In live runs, Workbench drives source events, controls client connections
+      and checks view results. The crocodile clips illustrate those integration points.
     </figcaption>
   </figure>
   <div class="two-column">
@@ -450,12 +451,12 @@
       </p>
     </div>
     <div>
-      <h3>Presentation stays separate</h3>
+      <h3>Virtual time, production decisions</h3>
       <p>
-        Scenarios can run with protocol clients without a browser. Demo
-        applications add a visual explanation, and browser checks can exercise
-        their behaviour without making a particular UI part of the core scenario
-        runner.
+        The deterministic timeline runs the production runtime in a separate
+        simulation host. Controlled scheduling and transport adapters supply
+        time and delivery; ZooGlass’s strategy code still owns reconciliation.
+        The service artifact stays separate from the simulation host.
       </p>
     </div>
   </div>
