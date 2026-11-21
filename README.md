@@ -1,6 +1,6 @@
 # ZooGlass website
 
-Run `python3 build.py` to generate the seven-page Folio site in `dist/` for
+Run `python3 build.py` to generate the nine-page Folio site in `dist/` for
 zooglass.io. Editable pages, layout, footer and styles live in `src/`.
 
 The Demonstrations section uses ordinary page links to switch between Fleet,

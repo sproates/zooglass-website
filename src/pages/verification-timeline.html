@@ -103,9 +103,14 @@
       <h3>Configure your own static views</h3>
       <p>
         Combine arrival, latest-by-sequence and history fields with aliases in
-        bounded memory configurations. Supported ordinary scenarios can be
-        explicitly converted. This family uses zero-latency links and excludes
-        faults, retries and restarts.
+        bounded configurations. The static memory family supports explicit
+        conversion of supported ordinary scenarios, without retries or restarts.
+        The static recovery family
+        adds memory or SQLite storage, controlled orderly or abrupt restarts
+        between completed turns,
+        explicit reconnects and exact retries. Memory starts empty; SQLite restores
+        durable state. Both families use zero-latency links; the recovery family
+        excludes transport faults and automatic retries.
       </p>
     </article>
   </div>
@@ -143,5 +148,6 @@
   <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-guide.md">Technical guide and profile limits ↗</a>
   <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-acceptance.md">Timeline qualification evidence ↗</a>
   <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-static-qualification.md">Broader configuration evidence ↗</a>
+  <a class="text-link" href="https://github.com/sproates/zooglass/blob/main/workbench/docs/timeline-recovery-qualification.md">Static recovery: 28-execution qualification ↗</a>
 </section>
 <section class="closing"><h2>Alongside real-service checks</h2><p>Controlled timelines complement tests of real connections, process crashes and recovery.</p><a href="verification-evidence.html">Explore runtime evidence →</a></section>
