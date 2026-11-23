@@ -48,9 +48,12 @@ def render(template, values):
 
 def build(output, base):
     (output / "assets").mkdir(parents=True, exist_ok=True)
+    copyfile(SRC / "favicon.ico", output / "favicon.ico")
     media = SRC / "media"
     common = {
         "share_image": base + asset(SRC / "share.png", output),
+        "favicon": asset(SRC / "favicon.svg", output),
+        "touch_icon": asset(SRC / "apple-touch-icon.png", output),
         "css": asset(SRC / "folio.css", output),
         "video": asset(media / "continuous-driving.mp4", output),
         "poster": asset(media / "continuous-driving-desktop.webp", output),
