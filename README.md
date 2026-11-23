@@ -39,3 +39,10 @@ The build fingerprints styles, icons, recordings and posters. Hosts with configu
 cache headers can serve `assets/` with
 `Cache-Control: public, max-age=31536000, immutable` and revalidate HTML,
 robots.txt and sitemap.xml on each visit.
+
+Search and sharing metadata come from the shared layout and page descriptions in
+`build.py`: page titles, descriptions, canonical URLs, Open Graph previews and
+Twitter cards. The homepage also declares the ZooGlass site name using WebSite
+JSON-LD. The 1200×630 `src/share.png` supplies the shared preview image. The build
+emits a sitemap and robots.txt. These are hints: search engines and messaging
+apps choose what to display and may cache earlier previews.

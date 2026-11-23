@@ -1,5 +1,6 @@
 """Build Folio with canonical URLs for its intended host."""
 import argparse
+import json
 from hashlib import sha256
 from pathlib import Path
 from shutil import copyfile
@@ -79,7 +80,12 @@ def build(output, base):
         canonical = base if filename == "index.html" else base + filename
         XML.SubElement(XML.SubElement(sitemap, "url"), "loc").text = canonical
         content = render((SRC / "pages" / filename).read_text(), common)
-        page = render(layout, dict(common, content=content, navigation="\n".join(links),
+        site_identity = ""
+        if filename == "index.html":
+            identity = {"@context": "https://schema.org", "@type": "WebSite",
+                        "name": "ZooGlass", "url": base}
+            site_identity = '<script type="application/ld+json">' + json.dumps(identity).replace("<", "\\u003c") + '</script>'
+        page = render(layout, dict(common, site_identity=site_identity, content=content, navigation="\n".join(links),
                                   description=DESCRIPTIONS[filename],
                                   title="ZooGlass · Event-driven live views" if filename == "index.html" else f"{name} · ZooGlass",
                                   canonical=canonical))
