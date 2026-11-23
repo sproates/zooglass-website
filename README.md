@@ -30,7 +30,12 @@ Live demo recordings illustrate real-service runs, not deterministic playback.
 For a LAN preview, supply its URL with `--base` and its serving directory with
 `--output`. Serve generated files using `panack-http-server --no-cache --noindex`.
 
-The build fingerprints styles, recordings and posters. Hosts with configurable
+The favicon uses the existing elephant-and-magnifying-glass mark in `src/favicon.svg`,
+with 16, 32 and 48-pixel ICO sizes and a 180-pixel Apple touch icon. The shared
+layout includes these on every page. Keep the raster icons aligned with the SVG
+when changing the mark.
+
+The build fingerprints styles, icons, recordings and posters. Hosts with configurable
 cache headers can serve `assets/` with
 `Cache-Control: public, max-age=31536000, immutable` and revalidate HTML,
 robots.txt and sitemap.xml on each visit.
